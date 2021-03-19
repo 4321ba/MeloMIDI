@@ -1,0 +1,9 @@
+[submodule "source/libnyquist"]
+	path = source/libnyquist
+	url = https://github.com/ddiakopoulos/libnyquist
+[submodule "source/godot-cpp"]
+	path = source/godot-cpp
+	url = https://github.com/godotengine/godot-cpp
+[submodule "source/kissfft"]
+	path = source/kissfft
+	url = https://github.com/mborgerding/kissfft
