@@ -1,8 +1,9 @@
 # MeloMIDI
 An interactive wave to midi editor.
 # Compiling
-If you want to modify the core (C++) part of spectrum_analyzer, you have to compile/build the libraries first.  
-We should have a build system like cmake, but we don't have that yet.  
+You don't need to do this most of the time, there's already a compiled version in `project/bin`, and you can modify most parts of the program without changing the GDNative/NativeScript part.  
+However, if you want to modify the core (C++) part of spectrum_analyzer, you have to compile/build the libraries first.  
+We should have a build system like cmake, but we don't have that yet. A contribution would be welcome!  
 First you need to `git submodule update --init --recursive` to get the submodules.  
 Before building you need to `cd` into the root directory of the library.  
 Build the godot-cpp bindings with this command: `scons generate_bindings=yes -j4`, if you have 4 cpu cores e.g..  

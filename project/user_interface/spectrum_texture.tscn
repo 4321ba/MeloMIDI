@@ -2,10 +2,6 @@
 
 [ext_resource path="res://user_interface/spectrum_texture.gd" type="Script" id=1]
 
-[node name="spectrum_texture" type="TextureRect"]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="spectrum_texture" type="Sprite"]
+centered = false
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}

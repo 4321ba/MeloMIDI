@@ -44,13 +44,16 @@ public:
         
         std::vector<float> samples;
         //adding silence to the beginning
-        for (int i = 0; i < fft_size; i++) {
-            samples.push_back(0.0f);
-        }
+        for (int i = 0; i < fft_size / 2; i++) { samples.push_back(0.0f); }
         //averaging all channels so samples become mono
         for (int i = 0; i < sample_size; i++) {
-            samples.push_back(std::accumulate(file_data->samples.begin() + (i * channel_count), file_data->samples.begin() + ((i+1) * channel_count), 0.0f) / channel_count);
+            samples.push_back(std::accumulate(
+                file_data->samples.begin() + (i * channel_count),
+                file_data->samples.begin() + ((i+1) * channel_count),
+                0.0f) / channel_count);
         }
+        //adding silence to the end
+        for (int i = 0; i < fft_size / 2; i++) { samples.push_back(0.0f); }
         sample_size += fft_size;
         std::cout << "Sample size is " << sample_size << std::endl;
         std::cout << "Mono sample-vector size is " << samples.size() << std::endl;

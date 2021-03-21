@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://user_interface/main_window.gd" type="Script" id=1]
+[ext_resource path="res://user_interface/graph_scroll_container.gd" type="Script" id=3]
 
 [node name="main_window" type="Control"]
 anchor_right = 1.0
@@ -18,7 +19,7 @@ __meta__ = {
 }
 
 [node name="toolbar" type="HBoxContainer" parent="toolbar_separator"]
-margin_right = 720.0
+margin_right = 1280.0
 margin_bottom = 20.0
 
 [node name="load_file" type="Button" parent="toolbar_separator/toolbar"]
@@ -28,43 +29,46 @@ text = "Load file"
 
 [node name="working_area" type="GridContainer" parent="toolbar_separator"]
 margin_top = 24.0
-margin_right = 720.0
+margin_right = 1280.0
 margin_bottom = 720.0
 size_flags_vertical = 3
 
-[node name="scroll_container" type="ScrollContainer" parent="toolbar_separator/working_area"]
-margin_right = 720.0
+[node name="graph_scroll_container" type="ScrollContainer" parent="toolbar_separator/working_area"]
+margin_right = 1280.0
 margin_bottom = 696.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource( 3 )
 
-[node name="graph_area" type="HBoxContainer" parent="toolbar_separator/working_area/scroll_container"]
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="graph_spacer" type="Control" parent="toolbar_separator/working_area/graph_scroll_container"]
 
-[node name="file_dialog_canvas" type="CanvasLayer" parent="."]
+[node name="graph_area" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer"]
 
-[node name="center_container" type="CenterContainer" parent="file_dialog_canvas"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="spectrum_textures" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
 
-[node name="file_dialog" type="FileDialog" parent="file_dialog_canvas/center_container"]
-margin_left = 60.0
-margin_top = 60.0
-margin_right = 660.0
-margin_bottom = 660.0
-rect_min_size = Vector2( 600, 600 )
+[node name="notes" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
+
+[node name="endpoint" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
+
+[node name="file_dialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -400.0
+margin_top = -300.0
+margin_right = 400.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 800, 600 )
 window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.wav ; WAV files", "*.ogg ; OGG Vorbis files", "*.mp3 ; MP3 files" )
 current_dir = "/"
 current_path = "/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="pressed" from="toolbar_separator/toolbar/load_file" to="." method="_on_load_file_pressed"]
-[connection signal="file_selected" from="file_dialog_canvas/center_container/file_dialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="file_selected" from="file_dialog" to="." method="_on_file_dialog_file_selected"]
