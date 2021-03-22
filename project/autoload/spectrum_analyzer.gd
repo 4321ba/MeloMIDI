@@ -1,9 +1,13 @@
 extends Node
 
 var sample_rate: int
+var fft_size: int = 16384
+var hop_size: int = 1024
+var subdivision: int = 9
 var texture_size: Vector2
-var native_library = preload("res://bin/spectrum_analyzer.gdns").new()
+
 const spectrum_texture_scene: PackedScene = preload("res://user_interface/spectrum_texture.tscn")
+var native_library = preload("res://bin/spectrum_analyzer.gdns").new()
 
 func pool_real_array_max(array: PoolRealArray) -> float:
 	var maximum: float
@@ -12,7 +16,7 @@ func pool_real_array_max(array: PoolRealArray) -> float:
 			maximum = i
 	return maximum
 
-func analyze_spectrum(filename: String, fft_size: int = 16384, hop_size: int = 1024, subdivision: int = 9) -> SpectrumTexture:
+func analyze_spectrum(filename: String) -> SpectrumTexture:
 	var magnitudes: PoolRealArray = native_library.analyze_spectrum(filename, fft_size, hop_size)
 	sample_rate = magnitudes[-2]
 	#This is the height of the output image:

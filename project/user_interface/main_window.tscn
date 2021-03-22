@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://user_interface/main_window.gd" type="Script" id=1]
+[ext_resource path="res://user_interface/timeline_scroll_container.gd" type="Script" id=2]
 [ext_resource path="res://user_interface/graph_scroll_container.gd" type="Script" id=3]
+[ext_resource path="res://user_interface/piano_scroll_container.gd" type="Script" id=4]
+[ext_resource path="res://user_interface/piano_bar.gd" type="Script" id=5]
+[ext_resource path="res://user_interface/timeline_bar.gd" type="Script" id=6]
 
 [node name="main_window" type="Control"]
 anchor_right = 1.0
@@ -32,8 +36,40 @@ margin_top = 24.0
 margin_right = 1280.0
 margin_bottom = 720.0
 size_flags_vertical = 3
+columns = 2
+
+[node name="bar_spacer" type="Control" parent="toolbar_separator/working_area"]
+margin_right = 40.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 40, 30 )
+
+[node name="timeline_scroll_container" type="ScrollContainer" parent="toolbar_separator/working_area"]
+margin_left = 44.0
+margin_right = 1280.0
+margin_bottom = 30.0
+mouse_filter = 2
+script = ExtResource( 2 )
+
+[node name="timeline_bar" type="Control" parent="toolbar_separator/working_area/timeline_scroll_container"]
+margin_bottom = 31.0
+rect_min_size = Vector2( 0, 31 )
+script = ExtResource( 6 )
+
+[node name="piano_scroll_container" type="ScrollContainer" parent="toolbar_separator/working_area"]
+margin_top = 34.0
+margin_right = 40.0
+margin_bottom = 696.0
+mouse_filter = 2
+script = ExtResource( 4 )
+
+[node name="piano_bar" type="Control" parent="toolbar_separator/working_area/piano_scroll_container"]
+margin_right = 41.0
+rect_min_size = Vector2( 41, 0 )
+script = ExtResource( 5 )
 
 [node name="graph_scroll_container" type="ScrollContainer" parent="toolbar_separator/working_area"]
+margin_left = 44.0
+margin_top = 34.0
 margin_right = 1280.0
 margin_bottom = 696.0
 size_flags_horizontal = 3
@@ -71,4 +107,6 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="toolbar_separator/toolbar/load_file" to="." method="_on_load_file_pressed"]
+[connection signal="scale_changed" from="toolbar_separator/working_area/graph_scroll_container" to="toolbar_separator/working_area/piano_scroll_container" method="_on_graph_scroll_container_scale_changed"]
+[connection signal="scale_changed" from="toolbar_separator/working_area/graph_scroll_container" to="toolbar_separator/working_area/timeline_scroll_container" method="_on_graph_scroll_container_scale_changed"]
 [connection signal="file_selected" from="file_dialog" to="." method="_on_file_dialog_file_selected"]

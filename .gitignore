@@ -1,8 +1,6 @@
 #if we ever get to use cmake, we could have a build folder
 build/*
 
-test_files
-
 #kdevelop needed a project to add library paths
 source/.kdev4
 source/MeloMIDI.kdev4

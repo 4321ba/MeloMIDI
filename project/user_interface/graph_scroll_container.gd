@@ -1,5 +1,7 @@
 extends ScrollContainer
 
+signal scale_changed(new_endpoint)
+
 onready var graph_spacer: Control = $graph_spacer
 onready var graph_area: Node2D = $graph_spacer/graph_area
 onready var spectrum_textures: Node2D = $graph_spacer/graph_area/spectrum_textures
@@ -21,6 +23,8 @@ func _input(event):
 				zoom(Vector2(1.2, 1.2))
 			elif event.button_index == BUTTON_WHEEL_DOWN:
 				zoom(Vector2(1 / 1.2, 1 / 1.2))
+		#this makes so it doesn't scroll down/sideways
+		#because of the built-in functionality
 		get_tree().set_input_as_handled()
 
 func add_spectrum_texture(spectrum_texture: SpectrumTexture):
@@ -37,11 +41,10 @@ func zoom(scale: Vector2):
 	#because the container's resize is only in the queue
 	get_h_scrollbar().max_value = graph_spacer.rect_min_size.x * 2
 	get_v_scrollbar().max_value = graph_spacer.rect_min_size.y * 2
-	print(scroll_horizontal)
 	scroll_horizontal = scroll_horizontal * scale.x + (scale.x - 1) * rect_size.x / 2
-	print(scroll_horizontal)
 	scroll_vertical = scroll_vertical * scale.y + (scale.y - 1) * rect_size.y / 2
-	print(endpoint.position * graph_area.scale, " ", scroll_horizontal, " ", scroll_vertical)
 
 func update_graph_spacer():
-	graph_spacer.rect_min_size = endpoint.position * graph_area.scale
+	var current_size: Vector2 = endpoint.position * graph_area.scale
+	graph_spacer.rect_min_size = current_size
+	emit_signal("scale_changed", current_size)
