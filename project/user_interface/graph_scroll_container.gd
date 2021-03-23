@@ -1,19 +1,20 @@
 extends ScrollContainer
-
-signal scale_changed(new_endpoint)
+#this script is used for zooming and other related stuff
 
 onready var graph_spacer: Control = $graph_spacer
 onready var graph_area: Node2D = $graph_spacer/graph_area
 onready var spectrum_textures: Node2D = $graph_spacer/graph_area/spectrum_textures
 onready var endpoint: Node2D = $graph_spacer/graph_area/endpoint
+onready var piano_scroll_container: ScrollContainer = $"../piano_scroll_container"
+onready var timeline_scroll_container: ScrollContainer = $"../timeline_scroll_container"
 
 func _input(event):
 	if (event is InputEventMouseButton and
 		(event.button_index == BUTTON_WHEEL_UP or event.button_index == BUTTON_WHEEL_DOWN) and
 		event.pressed and
-		Input.is_action_pressed("control_key")
+		event.control
 		):
-		if Input.is_action_pressed("shift_key"):
+		if event.shift:
 			if event.button_index == BUTTON_WHEEL_UP:
 				zoom(Vector2(1, 1.2))
 			elif event.button_index == BUTTON_WHEEL_DOWN:
@@ -47,4 +48,10 @@ func zoom(scale: Vector2):
 func update_graph_spacer():
 	var current_size: Vector2 = endpoint.position * graph_area.scale
 	graph_spacer.rect_min_size = current_size
-	emit_signal("scale_changed", current_size)
+	piano_scroll_container.update_length(current_size)
+	timeline_scroll_container.update_length(current_size)
+
+func reset():
+	scroll_horizontal = 0
+	scroll_vertical = 0
+	graph_area.scale = Vector2(1, 1)

@@ -13,5 +13,5 @@ func _ready():
 	get_h_scrollbar().mouse_filter = Control.MOUSE_FILTER_IGNORE
 	theme = load("res://themes/scrollbar_remover.tres")
 
-func _on_graph_scroll_container_scale_changed(new_endpoint):
+func update_length(new_endpoint):
 	piano_bar.rect_min_size.y = new_endpoint.y

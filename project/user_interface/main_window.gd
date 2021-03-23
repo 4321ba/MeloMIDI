@@ -15,5 +15,8 @@ func _on_load_file_pressed():
 	file_dialog.show_hidden_files = false
 
 func _on_file_dialog_file_selected(path):
+	wave_player.replay_cursor_position_percent = 0
+	graph_scroll_container.reset()
+	wave_player.load_file(path)
 	var spectrum_texture: SpectrumTexture = spectrum_analyzer.analyze_spectrum(path)
 	graph_scroll_container.add_spectrum_texture(spectrum_texture)

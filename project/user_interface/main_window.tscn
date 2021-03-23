@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://user_interface/main_window.gd" type="Script" id=1]
 [ext_resource path="res://user_interface/timeline_scroll_container.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://user_interface/piano_scroll_container.gd" type="Script" id=4]
 [ext_resource path="res://user_interface/piano_bar.gd" type="Script" id=5]
 [ext_resource path="res://user_interface/timeline_bar.gd" type="Script" id=6]
+[ext_resource path="res://user_interface/toolbar.gd" type="Script" id=7]
 
 [node name="main_window" type="Control"]
 anchor_right = 1.0
@@ -25,11 +26,33 @@ __meta__ = {
 [node name="toolbar" type="HBoxContainer" parent="toolbar_separator"]
 margin_right = 1280.0
 margin_bottom = 20.0
+script = ExtResource( 7 )
 
 [node name="load_file" type="Button" parent="toolbar_separator/toolbar"]
 margin_right = 66.0
 margin_bottom = 20.0
+hint_tooltip = "Load a wave audio file to be processed"
+focus_mode = 0
 text = "Load file"
+
+[node name="playback_option" type="Button" parent="toolbar_separator/toolbar"]
+margin_left = 70.0
+margin_right = 269.0
+margin_bottom = 20.0
+hint_tooltip = "The triangle is where playback restarts after a pause"
+focus_mode = 0
+toggle_mode = true
+text = "Make triangle follow playback"
+
+[node name="follow_option" type="OptionButton" parent="toolbar_separator/toolbar"]
+margin_left = 273.0
+margin_right = 463.0
+margin_bottom = 20.0
+hint_tooltip = "How the screen follows the playback bar"
+focus_mode = 0
+text = "Jump if playing off-screen"
+items = [ "Jump if playing off-screen", null, false, 0, null, "Don't follow playback", null, false, 1, null, "Screen follows playback", null, false, 2, null ]
+selected = 0
 
 [node name="working_area" type="GridContainer" parent="toolbar_separator"]
 margin_top = 24.0
@@ -54,6 +77,11 @@ script = ExtResource( 2 )
 margin_bottom = 31.0
 rect_min_size = Vector2( 0, 31 )
 script = ExtResource( 6 )
+
+[node name="playback_cursor" type="Line2D" parent="toolbar_separator/working_area/timeline_scroll_container/timeline_bar"]
+width = 1.0
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
 
 [node name="piano_scroll_container" type="ScrollContainer" parent="toolbar_separator/working_area"]
 margin_top = 34.0
@@ -81,6 +109,7 @@ script = ExtResource( 3 )
 [node name="graph_area" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer"]
 
 [node name="spectrum_textures" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
+z_index = -1
 
 [node name="notes" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
 
@@ -107,6 +136,6 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="toolbar_separator/toolbar/load_file" to="." method="_on_load_file_pressed"]
-[connection signal="scale_changed" from="toolbar_separator/working_area/graph_scroll_container" to="toolbar_separator/working_area/piano_scroll_container" method="_on_graph_scroll_container_scale_changed"]
-[connection signal="scale_changed" from="toolbar_separator/working_area/graph_scroll_container" to="toolbar_separator/working_area/timeline_scroll_container" method="_on_graph_scroll_container_scale_changed"]
+[connection signal="toggled" from="toolbar_separator/toolbar/playback_option" to="toolbar_separator/toolbar" method="_on_playback_option_toggled"]
+[connection signal="item_selected" from="toolbar_separator/toolbar/follow_option" to="toolbar_separator/toolbar" method="_on_follow_option_item_selected"]
 [connection signal="file_selected" from="file_dialog" to="." method="_on_file_dialog_file_selected"]

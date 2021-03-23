@@ -9,7 +9,7 @@ var data: PoolRealArray
 func _ready():
 	var height: int = data.size() / width
 	print("Creating image with %s pixels, it is %s high and %s wide" % [data.size(), height, width])
-    var subdivision: int = spectrum_analyzer.subdivision
+	var subdivision: int = spectrum_analyzer.subdivision
 	
 	var image_data: PoolByteArray = PoolByteArray()
 	for y in height:

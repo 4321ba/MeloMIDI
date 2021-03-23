@@ -68,6 +68,7 @@ public:
         PoolRealArray magnitudes;
         kiss_fft_cfg cfg = kiss_fft_alloc(fft_size, 0, 0, 0);
         for (int current_position = 0; current_position < sample_size - fft_size; current_position += hop_size) {
+            //these allocations could be moved outside of the loop
             kiss_fft_cpx cx_in[fft_size];
             kiss_fft_cpx cx_out[fft_size];
             for (int i = 0; i < fft_size; i++) {
