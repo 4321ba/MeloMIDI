@@ -4,7 +4,7 @@ extends ScrollContainer
 onready var graph_spacer: Control = $graph_spacer
 onready var graph_area: Node2D = $graph_spacer/graph_area
 onready var spectrum_textures: Node2D = $graph_spacer/graph_area/spectrum_textures
-onready var endpoint: Node2D = $graph_spacer/graph_area/endpoint
+onready var stripes: Node2D = $graph_spacer/graph_area/stripes
 onready var piano_scroll_container: ScrollContainer = $"../piano_scroll_container"
 onready var timeline_scroll_container: ScrollContainer = $"../timeline_scroll_container"
 
@@ -29,10 +29,14 @@ func _input(event):
 		get_tree().set_input_as_handled()
 
 func add_spectrum_texture(spectrum_texture: SpectrumTexture):
+	scroll_horizontal = 0
+	scroll_vertical = 0
+	graph_area.scale = Vector2(1, 1)
+	
 	for spectrum_texture in spectrum_textures.get_children():
 		spectrum_texture.queue_free()
 	spectrum_textures.add_child(spectrum_texture)
-	endpoint.position = spectrum_analyzer.texture_size
+	stripes.update()
 	update_graph_spacer()
 
 func zoom(scale: Vector2):
@@ -46,12 +50,7 @@ func zoom(scale: Vector2):
 	scroll_vertical = scroll_vertical * scale.y + (scale.y - 1) * rect_size.y / 2
 
 func update_graph_spacer():
-	var current_size: Vector2 = endpoint.position * graph_area.scale
+	var current_size: Vector2 = spectrum_analyzer.texture_size * graph_area.scale
 	graph_spacer.rect_min_size = current_size
 	piano_scroll_container.update_length(current_size)
 	timeline_scroll_container.update_length(current_size)
-
-func reset():
-	scroll_horizontal = 0
-	scroll_vertical = 0
-	graph_area.scale = Vector2(1, 1)

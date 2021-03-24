@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://user_interface/main_window.gd" type="Script" id=1]
 [ext_resource path="res://user_interface/timeline_scroll_container.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://user_interface/piano_bar.gd" type="Script" id=5]
 [ext_resource path="res://user_interface/timeline_bar.gd" type="Script" id=6]
 [ext_resource path="res://user_interface/toolbar.gd" type="Script" id=7]
+[ext_resource path="res://user_interface/stripes.gd" type="Script" id=8]
 
 [node name="main_window" type="Control"]
 anchor_right = 1.0
@@ -111,9 +112,10 @@ script = ExtResource( 3 )
 [node name="spectrum_textures" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
 z_index = -1
 
-[node name="notes" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
+[node name="stripes" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
+script = ExtResource( 8 )
 
-[node name="endpoint" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
+[node name="notes" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
 
 [node name="file_dialog" type="FileDialog" parent="."]
 anchor_left = 0.5

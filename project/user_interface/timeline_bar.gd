@@ -6,6 +6,7 @@ var dragging: bool = false
 
 onready var playback_cursor: Line2D = $playback_cursor
 onready var timeline_scroll_container: ScrollContainer = $".."
+onready var graph_spacer: Control = $"../../graph_scroll_container/graph_spacer"
 
 #this manages how the playback cursor moves
 func _process(delta):
@@ -14,7 +15,7 @@ func _process(delta):
 		var playback_cursor_position := rect_size.x * playback_cursor_position_percent
 		var points := PoolVector2Array([
 			Vector2(playback_cursor_position, 0),
-			Vector2(playback_cursor_position, 2560)
+			Vector2(playback_cursor_position, graph_spacer.rect_min_size.y + 34)
 			])
 		playback_cursor.points = points
 		#if option is set  or  if we're left/right outside and other option is set

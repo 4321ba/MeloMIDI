@@ -16,14 +16,6 @@ func _ready():
 		for x in width:
 			var weight: float = sqrt(data[x * height + y])
 			var color: Color = Color.from_hsv(weight, 1, 1)
-			#we currently darken the black notes
-			#and the separation between BC and EF here,
-			#hardcoding it into the image
-			#this is probably slowing things down quite a lot
-			if (((y / subdivision) % 12 in [1, 3, 6, 8, 10]) or
-				((y / subdivision) % 12 in [11, 4] and y % 9 == 8) or
-				((y / subdivision) % 12 in [0, 5] and y % subdivision == 0 and y != 0)):
-				color = color.darkened(0.2)
 			image_data.append(color.r8)
 			image_data.append(color.g8)
 			image_data.append(color.b8)
