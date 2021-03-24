@@ -52,7 +52,7 @@ margin_bottom = 20.0
 hint_tooltip = "How the screen follows the playback bar"
 focus_mode = 0
 text = "Jump if playing off-screen"
-items = [ "Jump if playing off-screen", null, false, 0, null, "Don't follow playback", null, false, 1, null, "Screen follows playback", null, false, 2, null ]
+items = [ "Jump if playing off-screen", null, false, 0, null, "Don't follow playback", null, false, 1, null, "Cursor always left", null, false, 2, null, "Cursor always middle", null, false, 3, null ]
 selected = 0
 
 [node name="working_area" type="GridContainer" parent="toolbar_separator"]
@@ -109,7 +109,7 @@ script = ExtResource( 3 )
 
 [node name="graph_area" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer"]
 
-[node name="spectrum_textures" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
+[node name="spectrum_sprites" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
 z_index = -1
 
 [node name="stripes" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]

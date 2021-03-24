@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://user_interface/spectrum_texture.gd" type="Script" id=1]
-
-[node name="spectrum_texture" type="Sprite"]
-centered = false
-script = ExtResource( 1 )

@@ -3,7 +3,7 @@ extends ScrollContainer
 
 onready var graph_spacer: Control = $graph_spacer
 onready var graph_area: Node2D = $graph_spacer/graph_area
-onready var spectrum_textures: Node2D = $graph_spacer/graph_area/spectrum_textures
+onready var spectrum_sprites: Node2D = $graph_spacer/graph_area/spectrum_sprites
 onready var stripes: Node2D = $graph_spacer/graph_area/stripes
 onready var piano_scroll_container: ScrollContainer = $"../piano_scroll_container"
 onready var timeline_scroll_container: ScrollContainer = $"../timeline_scroll_container"
@@ -28,14 +28,19 @@ func _input(event):
 		#because of the built-in functionality
 		get_tree().set_input_as_handled()
 
-func add_spectrum_texture(spectrum_texture: SpectrumTexture):
+func reset(file_to_load):
 	scroll_horizontal = 0
 	scroll_vertical = 0
 	graph_area.scale = Vector2(1, 1)
 	
-	for spectrum_texture in spectrum_textures.get_children():
-		spectrum_texture.queue_free()
-	spectrum_textures.add_child(spectrum_texture)
+	var new_spectrum_sprites = spectrum_analyzer.analyze_spectrum(file_to_load)
+	for spectrum_sprite in spectrum_sprites.get_children():
+		spectrum_sprite.queue_free()
+	var current_width := 0
+	for spectrum_sprite in new_spectrum_sprites:
+		spectrum_sprite.position.x = current_width
+		current_width += spectrum_sprite.texture.get_width()
+		spectrum_sprites.add_child(spectrum_sprite)
 	stripes.update()
 	update_graph_spacer()
 
