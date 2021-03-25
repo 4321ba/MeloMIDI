@@ -1,37 +1,7 @@
 extends Control
 #this script is responsible for drawing the timeline on the top
-#and for the line that moves while playing back
 
 var dragging: bool = false
-
-onready var playback_cursor: Line2D = $playback_cursor
-onready var timeline_scroll_container: ScrollContainer = $".."
-onready var graph_spacer: Control = $"../../graph_scroll_container/graph_spacer"
-
-#this manages how the playback cursor moves
-func _process(delta):
-	if wave_player.playing:
-		var playback_cursor_position_percent := wave_player.get_playback_position() / wave_player.stream.get_length()
-		var playback_cursor_position := rect_size.x * playback_cursor_position_percent
-		var points := PoolVector2Array([
-			Vector2(playback_cursor_position, 0),
-			Vector2(playback_cursor_position, graph_spacer.rect_min_size.y + 34)
-			])
-		playback_cursor.points = points
-		#if option is set  or  if we're left/right outside and other option is set
-		if (options.screen_follows_cursor == options.CURSOR_ALWAYS_LEFT or (
-			(timeline_scroll_container.scroll_horizontal + get_viewport_rect().size.x - 40 < playback_cursor_position or
-			timeline_scroll_container.scroll_horizontal > playback_cursor_position) and
-			options.screen_follows_cursor == options.JUMP_IF_PLAYING_OFFSCREEN)):
-			timeline_scroll_container.scroll_horizontal = playback_cursor_position
-		if options.screen_follows_cursor == options.CURSOR_ALWAYS_MIDDLE:
-			timeline_scroll_container.scroll_horizontal = playback_cursor_position - (get_viewport_rect().size.x - 40) / 2
-		if options.triangle_follows_cursor:
-			wave_player.replay_cursor_position_percent = playback_cursor_position_percent
-			update()
-	else:
-		playback_cursor.points = PoolVector2Array()
-		
 
 func _gui_input(event):
 	if not event is InputEventMouse or event.button_mask != BUTTON_LEFT:

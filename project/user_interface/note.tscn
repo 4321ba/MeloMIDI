@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://user_interface/note.gd" type="Script" id=1]
+
+[node name="note" type="Line2D"]
+points = PoolVector2Array( 0, 0, 0, 0 )
+default_color = Color( 0.517647, 0.4, 1, 0.721569 )
+script = ExtResource( 1 )
+
+[node name="container" type="HBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="left" type="Control" parent="container"]
+margin_right = 13.0
+margin_bottom = 40.0
+mouse_default_cursor_shape = 10
+size_flags_horizontal = 3
+
+[node name="middle" type="Control" parent="container"]
+margin_left = 13.0
+margin_right = 26.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+
+[node name="right" type="Control" parent="container"]
+margin_left = 26.0
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_default_cursor_shape = 10
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="area" type="Area2D" parent="."]
+
+[node name="collision" type="CollisionShape2D" parent="area"]
+
+[connection signal="gui_input" from="container/left" to="." method="_on_left_gui_input"]
+[connection signal="gui_input" from="container/middle" to="." method="_on_middle_gui_input"]
+[connection signal="gui_input" from="container/right" to="." method="_on_right_gui_input"]

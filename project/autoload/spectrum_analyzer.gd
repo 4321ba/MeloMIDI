@@ -1,13 +1,13 @@
 extends Node
 
-var sample_rate: int
 var fft_size: int = 16384
 var hop_size: int = 1024
 var subdivision: int = 9
 var tuning: float = 440
+
+var sample_rate: int
 var texture_size: Vector2
 
-const spectrum_sprite_scene: PackedScene = preload("res://user_interface/spectrum_sprite.tscn")
 var native_library = preload("res://bin/spectrum_analyzer.gdns").new()
 
 func analyze_spectrum(filename: String) -> Array:
@@ -19,7 +19,8 @@ func analyze_spectrum(filename: String) -> Array:
 	for image in images:
 		var image_texture: ImageTexture = ImageTexture.new()
 		image_texture.create_from_image(image)
-		var spectrum_sprite = spectrum_sprite_scene.instance()
+		var spectrum_sprite: Sprite = Sprite.new()
+		spectrum_sprite.centered = false
 		spectrum_sprite.texture = image_texture
 		spectrum_sprites.append(spectrum_sprite)
 	return spectrum_sprites

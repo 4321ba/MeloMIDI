@@ -5,6 +5,7 @@ onready var graph_spacer: Control = $graph_spacer
 onready var graph_area: Node2D = $graph_spacer/graph_area
 onready var spectrum_sprites: Node2D = $graph_spacer/graph_area/spectrum_sprites
 onready var stripes: Node2D = $graph_spacer/graph_area/stripes
+onready var notes: Node2D = $graph_spacer/graph_area/notes
 onready var piano_scroll_container: ScrollContainer = $"../piano_scroll_container"
 onready var timeline_scroll_container: ScrollContainer = $"../timeline_scroll_container"
 
@@ -32,6 +33,7 @@ func reset(file_to_load):
 	scroll_horizontal = 0
 	scroll_vertical = 0
 	graph_area.scale = Vector2(1, 1)
+	notes.remove_notes()
 	
 	var new_spectrum_sprites = spectrum_analyzer.analyze_spectrum(file_to_load)
 	for spectrum_sprite in spectrum_sprites.get_children():

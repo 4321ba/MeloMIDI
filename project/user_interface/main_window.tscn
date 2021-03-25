@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://user_interface/main_window.gd" type="Script" id=1]
 [ext_resource path="res://user_interface/timeline_scroll_container.gd" type="Script" id=2]
@@ -8,6 +8,11 @@
 [ext_resource path="res://user_interface/timeline_bar.gd" type="Script" id=6]
 [ext_resource path="res://user_interface/toolbar.gd" type="Script" id=7]
 [ext_resource path="res://user_interface/stripes.gd" type="Script" id=8]
+[ext_resource path="res://user_interface/notes.gd" type="Script" id=9]
+[ext_resource path="res://user_interface/playback_cursor.gd" type="Script" id=10]
+
+[sub_resource type="SegmentShape2D" id=1]
+b = Vector2( 0, 0 )
 
 [node name="main_window" type="Control"]
 anchor_right = 1.0
@@ -66,6 +71,7 @@ columns = 2
 margin_right = 40.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 40, 30 )
+mouse_filter = 2
 
 [node name="timeline_scroll_container" type="ScrollContainer" parent="toolbar_separator/working_area"]
 margin_left = 44.0
@@ -83,6 +89,12 @@ script = ExtResource( 6 )
 width = 1.0
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
+script = ExtResource( 10 )
+
+[node name="area" type="Area2D" parent="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor"]
+
+[node name="collision" type="CollisionShape2D" parent="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area"]
+shape = SubResource( 1 )
 
 [node name="piano_scroll_container" type="ScrollContainer" parent="toolbar_separator/working_area"]
 margin_top = 34.0
@@ -108,14 +120,15 @@ script = ExtResource( 3 )
 [node name="graph_spacer" type="Control" parent="toolbar_separator/working_area/graph_scroll_container"]
 
 [node name="graph_area" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer"]
+z_index = -1
 
 [node name="spectrum_sprites" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
-z_index = -1
 
 [node name="stripes" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
 script = ExtResource( 8 )
 
 [node name="notes" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
+script = ExtResource( 9 )
 
 [node name="file_dialog" type="FileDialog" parent="."]
 anchor_left = 0.5
@@ -140,4 +153,7 @@ __meta__ = {
 [connection signal="pressed" from="toolbar_separator/toolbar/load_file" to="." method="_on_load_file_pressed"]
 [connection signal="toggled" from="toolbar_separator/toolbar/playback_option" to="toolbar_separator/toolbar" method="_on_playback_option_toggled"]
 [connection signal="item_selected" from="toolbar_separator/toolbar/follow_option" to="toolbar_separator/toolbar" method="_on_follow_option_item_selected"]
+[connection signal="area_entered" from="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area" to="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor" method="_on_area_area_entered"]
+[connection signal="area_exited" from="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area" to="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor" method="_on_area_area_exited"]
+[connection signal="gui_input" from="toolbar_separator/working_area/graph_scroll_container/graph_spacer" to="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area/notes" method="_on_graph_spacer_gui_input"]
 [connection signal="file_selected" from="file_dialog" to="." method="_on_file_dialog_file_selected"]
