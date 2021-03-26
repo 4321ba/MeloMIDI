@@ -60,6 +60,16 @@ text = "Jump if playing off-screen"
 items = [ "Jump if playing off-screen", null, false, 0, null, "Don't follow playback", null, false, 1, null, "Cursor always left", null, false, 2, null, "Cursor always middle", null, false, 3, null ]
 selected = 0
 
+[node name="source_option" type="OptionButton" parent="toolbar_separator/toolbar"]
+margin_left = 467.0
+margin_right = 555.0
+margin_bottom = 20.0
+hint_tooltip = "Which source should play: wave or midi?"
+focus_mode = 0
+text = "Play both"
+items = [ "Play both", null, false, 0, null, "Play midi", null, false, 1, null, "Play wave", null, false, 2, null, "Midi left, wave right", null, false, 3, null, "Midi right, wave left", null, false, 4, null ]
+selected = 0
+
 [node name="working_area" type="GridContainer" parent="toolbar_separator"]
 margin_top = 24.0
 margin_right = 1280.0
@@ -153,6 +163,7 @@ __meta__ = {
 [connection signal="pressed" from="toolbar_separator/toolbar/load_file" to="." method="_on_load_file_pressed"]
 [connection signal="toggled" from="toolbar_separator/toolbar/playback_option" to="toolbar_separator/toolbar" method="_on_playback_option_toggled"]
 [connection signal="item_selected" from="toolbar_separator/toolbar/follow_option" to="toolbar_separator/toolbar" method="_on_follow_option_item_selected"]
+[connection signal="item_selected" from="toolbar_separator/toolbar/source_option" to="toolbar_separator/toolbar" method="_on_source_option_item_selected"]
 [connection signal="area_entered" from="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area" to="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor" method="_on_area_area_entered"]
 [connection signal="area_exited" from="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area" to="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor" method="_on_area_area_exited"]
 [connection signal="gui_input" from="toolbar_separator/working_area/graph_scroll_container/graph_spacer" to="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area/notes" method="_on_graph_spacer_gui_input"]

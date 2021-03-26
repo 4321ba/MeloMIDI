@@ -3,5 +3,6 @@
 [ext_resource path="res://autoload/wave_player.gd" type="Script" id=1]
 
 [node name="wave_player" type="AudioStreamPlayer"]
+volume_db = -6.0
 bus = "Wave"
 script = ExtResource( 1 )

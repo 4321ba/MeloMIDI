@@ -24,3 +24,12 @@ func _on_graph_spacer_gui_input(event: InputEvent):
 func remove_notes():
 	for note in get_children():
 		note.queue_free()
+
+func add_notes(notes: PoolIntArray):
+	for i in notes.size() / 4:
+		var note: Note = NOTE_SCENE.instance()
+		note.begin = notes[4 * i]
+		note.length = notes[4 * i + 1] - note.begin
+		note.note = notes[4 * i + 2]
+		note.velocity = notes[4 * i + 3]
+		add_child(note)

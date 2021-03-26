@@ -7,4 +7,5 @@
 script = ExtResource( 2 )
 load_all_voices_from_soundfont = false
 soundfont = "res://A320U.sf2"
+volume_db = -6.0
 bus = "Midi"

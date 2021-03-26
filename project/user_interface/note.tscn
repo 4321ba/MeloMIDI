@@ -4,7 +4,7 @@
 
 [node name="note" type="Line2D"]
 points = PoolVector2Array( 0, 0, 0, 0 )
-default_color = Color( 0.517647, 0.4, 1, 0.721569 )
+default_color = Color( 0, 0, 1, 1 )
 script = ExtResource( 1 )
 
 [node name="container" type="HBoxContainer" parent="."]
@@ -25,6 +25,7 @@ size_flags_horizontal = 3
 margin_left = 13.0
 margin_right = 26.0
 margin_bottom = 40.0
+mouse_default_cursor_shape = 9
 size_flags_horizontal = 3
 
 [node name="right" type="Control" parent="container"]

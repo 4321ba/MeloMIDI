@@ -29,7 +29,7 @@ public:
     std::vector<std::vector<float>> magnitudes;
     
     
-    Array analyze_spectrum(String filename_godot, int fft_size, int hop_size, int subdivision, float tuning) {
+    Array analyze_spectrum(String filename_godot, int fft_size, int hop_size, int subdivision, float tuning, float low_high_exponent) {
         
         Godot::print("Loading audio file " + filename_godot);
         //conversion from godot::String to std::string is from https://godotengine.org/qa/18552/gdnative-convert-godot-string-to-const-char
@@ -92,6 +92,11 @@ public:
             
             //now we apply a coversion from linear frequencies to exponential
             //meaning every +x rows mean *y frequencies, not +z frequencies
+            //a note for those who know what they are doing: this is my Frankenstein thing, and
+            //I made this "algorithm" from my "horse sense"
+            //I didn't do much research on it nor do I understand stuff like discrete cosine transform
+            //but this code should do something remotely similar to this:
+            //https://en.wikipedia.org/wiki/Mel-frequency_cepstrum
             std::vector<float> exponential_magnitudes;
             for (int note = 0; note < 128; note++) {
                 //midi note 69 is 440hz (or tuning for custom), and every +12 midi note is *2 in frequency
@@ -121,8 +126,7 @@ public:
                     //we need to smooth the border between where 1 and where 2 or more are added
                     //and also magnitudes are probably 2* as loud 1 octave lower
                     //because there are /2 less samples/frequencies analyzed
-                    //compensation seemed too strong so I sqrt'd it
-                    sum *= sqrt(frequency / 110) / (end_count - begin_count);
+                    sum *= pow(frequency / 110.0, low_high_exponent) / (end_count - begin_count);
                     if (sum > max_magnitude) { max_magnitude = sum; }
                     exponential_magnitudes.push_back(sum);
                 }
@@ -134,7 +138,7 @@ public:
         //so the absence of this probably causes some memory leak or something
         //the strange thing is when I used this outside of GDNative, it worked just fine
         //kiss_fft_free(cfg)
-        //they want me to use this, which I don't know if it's good
+        //they want me to use this, which I don't know if it's good, but it works so far
         ::free(cfg);
         
         for (auto & tick_magnitudes: magnitudes) {
@@ -172,6 +176,7 @@ public:
                     image_data.append(color.get_a8());
                 }
             }
+            //I'm not 100% sure this is good, there's Ref<Image> or something like that but idk
             Image* image = Image::_new();
             image->create_from_data(width, height, false, image->FORMAT_RGBA8, image_data);
             //we want low pitch to be down and high pitch to be up
@@ -182,10 +187,91 @@ public:
     }
     
     
+    PoolIntArray guess_notes(float note_on_threshold, float note_off_threshold, float octave_removal_multiplier, int minimum_length, float volume_multiplier) {
+        
+        int subdivision = magnitudes[0].size() / 128;
+        std::vector<std::vector<float>> note_strengths;
+        for (auto & current_magnitudes: magnitudes) {
+            std::vector<float> these_strengths;
+            for (int note = 0; note < 128; note++) {
+                float magnitude = 0;
+                for (int i = 0; i < subdivision; i++) {
+                    //we want to calculate a window-like thing, as we want the "inner" subdivisions to matter more
+                    //then the "outer" ones, this is just an absolute value thing so the window will look
+                    //something like this:  /\  with a peak of 2 and the sides being 1
+                    magnitude += current_magnitudes[note * subdivision + i] * (2 - abs(i * 2.0 / (subdivision - 1) - 1));
+                }
+                // we divide by 1.5 so that the maximum value becomes 1, because it ranges [0;1.5]
+                magnitude /= 1.5;
+                if (note > 0) {
+                    for (int i = 0; i < subdivision; i++) {
+                        //same thing, but now it looks like this:  /\  with a peak of 0 and the sides being -1
+                        //the purpose of this is to kinda exclude if there's a real note here, otherwise the goal of this whole thing is
+                        //to exclude drums and other "noise" that spreads across multiple notes, so if we subtract the magnitudes from
+                        //one note above and from one note below, from the current one, we get a rough idea if there's actually a note here
+                        magnitude += current_magnitudes[(note - 1) * subdivision + i] * (-abs(i * 2.0 / (subdivision - 1) - 1));
+                    }
+                }
+                if (note < 127) {
+                    for (int i = 0; i < subdivision; i++) {
+                        //same thing but for one note higher
+                        //notice that lower magnitudes and higher magnitudes < 0 so we add them, but they only compensate negatively
+                        magnitude += current_magnitudes[(note + 1) * subdivision + i] * (-abs(i * 2.0 / (subdivision - 1) - 1));
+                    }
+                }
+                these_strengths.push_back(magnitude > 0 ? magnitude / subdivision : 0);
+            }
+            note_strengths.push_back(these_strengths);
+        }
+        
+        //now we run a second round which actually decides where note ons and offs should be
+        //and optionally subtracts a fraction of the one octave lower magnitude
+        int width = note_strengths.size();
+        //the format of notes: 4 ints represent a note, I just can't return it better
+        //in the following order: begin_tick, end_tick, note, velocity, next begin_tick, etc...
+        PoolIntArray notes;
+        for (int note = 0; note < 128; note++) {
+            bool is_note_playing = false;
+            int note_begin_tick = -1;
+            float peak_magnitude = 0;
+            for (int tick = 0; tick < width; tick++) {
+                float magnitude = note_strengths[tick][note];
+                if (note >= 12) { magnitude -= note_strengths[tick][note - 12] * octave_removal_multiplier; }
+                if (not is_note_playing and magnitude >= note_on_threshold) {
+                    is_note_playing = true;
+                    note_begin_tick = tick;
+                }
+                if (is_note_playing and magnitude > peak_magnitude) { peak_magnitude = magnitude; }
+                if (is_note_playing and magnitude <= note_off_threshold) {
+                    is_note_playing = false;
+                    //we only add the note if it exceeds the minimum length given
+                    //because we don't want to clutter the image with many short notes
+                    if (tick - note_begin_tick >= minimum_length) {
+                        notes.append(note_begin_tick);
+                        notes.append(tick);
+                        notes.append(note);
+                        notes.append(peak_magnitude * 128 * volume_multiplier);
+                    }
+                    note_begin_tick = -1;
+                    peak_magnitude = 0;
+                }
+            }
+            //if we run out of width but there's still a note on
+            if (is_note_playing and width - note_begin_tick >= minimum_length) {
+                notes.append(note_begin_tick);
+                notes.append(width);
+                notes.append(note);
+                notes.append(peak_magnitude * 128 * volume_multiplier);
+            }
+        }
+        return notes;
+    }
+    
     
     static void _register_methods() {
         register_method("analyze_spectrum", &SpectrumAnalyzer::analyze_spectrum);
         register_method("generate_images", &SpectrumAnalyzer::generate_images);
+        register_method("guess_notes", &SpectrumAnalyzer::guess_notes);
     }
 };
 

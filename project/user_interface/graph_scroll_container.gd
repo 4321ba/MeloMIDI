@@ -33,7 +33,6 @@ func reset(file_to_load):
 	scroll_horizontal = 0
 	scroll_vertical = 0
 	graph_area.scale = Vector2(1, 1)
-	notes.remove_notes()
 	
 	var new_spectrum_sprites = spectrum_analyzer.analyze_spectrum(file_to_load)
 	for spectrum_sprite in spectrum_sprites.get_children():
@@ -45,6 +44,9 @@ func reset(file_to_load):
 		spectrum_sprites.add_child(spectrum_sprite)
 	stripes.update()
 	update_graph_spacer()
+	
+	notes.remove_notes()
+	notes.add_notes(spectrum_analyzer.get_guessed_notes())
 
 func zoom(scale: Vector2):
 	graph_area.scale *= scale

@@ -2,11 +2,12 @@ extends Line2D
 class_name Note
 
 var subdivision = spectrum_analyzer.subdivision
-var velocity: int = 127
+var velocity: int = 127 setget set_velocity
 var note: int setget set_note
 var begin: float setget set_begin
 var length: float setget set_length
 
+var changing_velocity: bool = false
 var resizing: bool = false
 var resize_fix_point: float
 var length_before_resize: float
@@ -14,6 +15,13 @@ var original_mouse_position: float
 
 onready var container: Control = $container
 onready var collision: CollisionShape2D = $area/collision
+onready var middle: Control = $container/middle
+
+func set_velocity(new_velocity: int):
+	velocity = min(max(new_velocity, 1), 127)
+	default_color.a8 = velocity + 64
+	if middle:
+		middle.hint_tooltip = str(velocity)
 
 func set_note(new_note: int):
 	note = new_note
@@ -24,12 +32,11 @@ func set_begin(new_begin: float):
 	position.x = begin
 	
 func set_length(new_length: float):
-	length = new_length if new_length >= 3 else 3
+	length = new_length if new_length >= 3 else 3.0
 	points[1].x = length
 	if container and collision:
 		container.rect_size.x = length
-		collision.shape.extents.x = length / 2
-		collision.position.x = length / 2
+		collision.shape.b = Vector2(length, 0)
 
 func fix_point_for_resize(is_resizing_left: bool, original_position: float):
 	resize_fix_point = begin + length if is_resizing_left else begin
@@ -49,10 +56,10 @@ func _ready():
 	width = subdivision
 	container.rect_position.y = -subdivision / 2.0
 	container.rect_size.y = subdivision
-	var rectangle_shape = RectangleShape2D.new()
-	rectangle_shape.extents.y = subdivision / 2.0
-	collision.shape = rectangle_shape
+	var segment_shape = SegmentShape2D.new()
+	collision.shape = segment_shape
 	set_length(length)
+	set_velocity(velocity)
 
 func _on_left_gui_input(event: InputEvent):
 	if event is InputEventMouseButton:
@@ -80,3 +87,7 @@ func _on_middle_gui_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_RIGHT:
 			queue_free()
+		if event.button_index == BUTTON_LEFT:
+			changing_velocity = event.pressed
+	if event is InputEventMouseMotion and changing_velocity:
+		set_velocity(velocity - ceil(event.relative.y))
