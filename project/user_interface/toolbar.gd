@@ -1,10 +1,11 @@
 extends HBoxContainer
 
-func _on_playback_option_toggled(button_pressed):
-	options.triangle_follows_cursor = button_pressed
+onready var open_file_dialog: FileDialog = $"../../open_file_dialog"
+onready var cursor_options: WindowDialog = $"../../cursor_options"
+onready var fft_options: WindowDialog = $"../../fft_options"
 
-func _on_follow_option_item_selected(index):
-	options.screen_follows_cursor = index
+func _on_load_file_pressed():
+	open_file_dialog.popup_centered()
 
 func _on_source_option_item_selected(index):
 	var wave_bus: int = AudioServer.get_bus_index("Wave")
@@ -26,3 +27,9 @@ func _on_source_option_item_selected(index):
 		4:
 			wave_panning.pan = -1
 			midi_panning.pan = 1
+
+func _on_cursor_options_pressed():
+	cursor_options.popup_centered()
+
+func _on_fft_options_pressed():
+	fft_options.popup_centered()

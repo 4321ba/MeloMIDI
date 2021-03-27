@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://user_interface/main_window.gd" type="Script" id=1]
+[ext_resource path="res://user_interface/fft_options.gd" type="Script" id=1]
 [ext_resource path="res://user_interface/timeline_scroll_container.gd" type="Script" id=2]
 [ext_resource path="res://user_interface/graph_scroll_container.gd" type="Script" id=3]
 [ext_resource path="res://user_interface/piano_scroll_container.gd" type="Script" id=4]
@@ -10,6 +10,8 @@
 [ext_resource path="res://user_interface/stripes.gd" type="Script" id=8]
 [ext_resource path="res://user_interface/notes.gd" type="Script" id=9]
 [ext_resource path="res://user_interface/playback_cursor.gd" type="Script" id=10]
+[ext_resource path="res://user_interface/cursor_options.gd" type="Script" id=11]
+[ext_resource path="res://user_interface/open_file_dialog.gd" type="Script" id=12]
 
 [sub_resource type="SegmentShape2D" id=1]
 b = Vector2( 0, 0 )
@@ -17,7 +19,6 @@ b = Vector2( 0, 0 )
 [node name="main_window" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -37,38 +38,41 @@ script = ExtResource( 7 )
 [node name="load_file" type="Button" parent="toolbar_separator/toolbar"]
 margin_right = 66.0
 margin_bottom = 20.0
-hint_tooltip = "Load a wave audio file to be processed"
+hint_tooltip = "Load a wave audio file to be processed."
 focus_mode = 0
 text = "Load file"
 
-[node name="playback_option" type="Button" parent="toolbar_separator/toolbar"]
-margin_left = 70.0
-margin_right = 269.0
-margin_bottom = 20.0
-hint_tooltip = "The triangle is where playback restarts after a pause"
-focus_mode = 0
-toggle_mode = true
-text = "Make triangle follow playback"
-
-[node name="follow_option" type="OptionButton" parent="toolbar_separator/toolbar"]
-margin_left = 273.0
-margin_right = 463.0
-margin_bottom = 20.0
-hint_tooltip = "How the screen follows the playback bar"
-focus_mode = 0
-text = "Jump if playing off-screen"
-items = [ "Jump if playing off-screen", null, false, 0, null, "Don't follow playback", null, false, 1, null, "Cursor always left", null, false, 2, null, "Cursor always middle", null, false, 3, null ]
-selected = 0
-
 [node name="source_option" type="OptionButton" parent="toolbar_separator/toolbar"]
-margin_left = 467.0
-margin_right = 555.0
+margin_left = 70.0
+margin_right = 221.0
 margin_bottom = 20.0
-hint_tooltip = "Which source should play: wave or midi?"
+hint_tooltip = "Which audio source should be played: wave or midi?"
 focus_mode = 0
-text = "Play both"
-items = [ "Play both", null, false, 0, null, "Play midi", null, false, 1, null, "Play wave", null, false, 2, null, "Midi left, wave right", null, false, 3, null, "Midi right, wave left", null, false, 4, null ]
+text = "Play midi and wave"
+items = [ "Play midi and wave", null, false, 0, null, "Play midi only", null, false, 1, null, "Play wave only", null, false, 2, null, "Midi left, wave right", null, false, 3, null, "Midi right, wave left", null, false, 4, null ]
 selected = 0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="cursor_options" type="Button" parent="toolbar_separator/toolbar"]
+margin_left = 225.0
+margin_right = 330.0
+margin_bottom = 20.0
+hint_tooltip = "Options regarding the playback cursor and screen position."
+focus_mode = 0
+text = "Cursor options"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="fft_options" type="Button" parent="toolbar_separator/toolbar"]
+margin_left = 334.0
+margin_right = 419.0
+margin_bottom = 20.0
+hint_tooltip = "Options regarding the image generation which also affect note recognition."
+focus_mode = 0
+text = "FFT options"
 
 [node name="working_area" type="GridContainer" parent="toolbar_separator"]
 margin_top = 24.0
@@ -140,7 +144,7 @@ script = ExtResource( 8 )
 [node name="notes" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
 script = ExtResource( 9 )
 
-[node name="file_dialog" type="FileDialog" parent="."]
+[node name="open_file_dialog" type="FileDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -149,22 +153,285 @@ margin_left = -400.0
 margin_top = -300.0
 margin_right = 400.0
 margin_bottom = 300.0
-rect_min_size = Vector2( 800, 600 )
+rect_min_size = Vector2( 400, 200 )
 window_title = "Open a File"
+resizable = true
 mode = 0
 access = 2
 filters = PoolStringArray( "*.wav ; WAV files", "*.ogg ; OGG Vorbis files", "*.mp3 ; MP3 files" )
 current_dir = "/"
 current_path = "/"
+script = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="toolbar_separator/toolbar/load_file" to="." method="_on_load_file_pressed"]
-[connection signal="toggled" from="toolbar_separator/toolbar/playback_option" to="toolbar_separator/toolbar" method="_on_playback_option_toggled"]
-[connection signal="item_selected" from="toolbar_separator/toolbar/follow_option" to="toolbar_separator/toolbar" method="_on_follow_option_item_selected"]
+[node name="cursor_options" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -250.0
+margin_top = -75.0
+margin_right = 250.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 500, 150 )
+window_title = "Cursor options"
+resizable = true
+script = ExtResource( 11 )
+
+[node name="center" type="CenterContainer" parent="cursor_options"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="grid" type="GridContainer" parent="cursor_options/center"]
+margin_left = 45.0
+margin_top = 45.0
+margin_right = 454.0
+margin_bottom = 105.0
+custom_constants/vseparation = 20
+custom_constants/hseparation = 10
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="playback_label" type="Label" parent="cursor_options/center/grid"]
+margin_top = 3.0
+margin_right = 200.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Where should playback restart?"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="playback_option" type="Button" parent="cursor_options/center/grid"]
+margin_left = 210.0
+margin_right = 409.0
+margin_bottom = 20.0
+hint_tooltip = "The triangle is where playback restarts after a pause"
+focus_mode = 0
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Make triangle follow playback"
+
+[node name="follow_label" type="Label" parent="cursor_options/center/grid"]
+margin_top = 43.0
+margin_right = 200.0
+margin_bottom = 57.0
+size_flags_horizontal = 3
+text = "How to follow playback?"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="follow_option" type="OptionButton" parent="cursor_options/center/grid"]
+margin_left = 210.0
+margin_top = 40.0
+margin_right = 409.0
+margin_bottom = 60.0
+hint_tooltip = "How the screen follows the playback bar"
+focus_mode = 0
+text = "Jump if playing off-screen"
+align = 1
+items = [ "Jump if playing off-screen", null, false, 0, null, "Don't follow playback", null, false, 1, null, "Cursor always left", null, false, 2, null, "Cursor always middle", null, false, 3, null ]
+selected = 0
+
+[node name="fft_options" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -250.0
+margin_top = -200.0
+margin_right = 250.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 500, 400 )
+window_title = "FFT options"
+resizable = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="center" type="CenterContainer" parent="fft_options"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="v_box" type="VBoxContainer" parent="fft_options/center"]
+margin_left = 147.0
+margin_top = 58.0
+margin_right = 352.0
+margin_bottom = 342.0
+custom_constants/separation = 20
+
+[node name="grid" type="GridContainer" parent="fft_options/center/v_box"]
+margin_right = 205.0
+margin_bottom = 244.0
+custom_constants/vseparation = 20
+custom_constants/hseparation = 10
+columns = 2
+
+[node name="fft_size_label" type="Label" parent="fft_options/center/v_box/grid"]
+margin_top = 5.0
+margin_right = 121.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "FFT size"
+align = 2
+
+[node name="fft_size_option" type="SpinBox" parent="fft_options/center/v_box/grid"]
+margin_left = 131.0
+margin_right = 205.0
+margin_bottom = 24.0
+hint_tooltip = "The amount of samples used for the FFT calculation.
+If bigger, lower notes will be more precise vertically;
+if smaller, notes will be more precise horizontally.
+Please use a 2's exponent!"
+size_flags_vertical = 3
+min_value = 128.0
+max_value = 65536.0
+step = 128.0
+value = 16384.0
+exp_edit = true
+rounded = true
+
+[node name="hop_size_label" type="Label" parent="fft_options/center/v_box/grid"]
+margin_top = 49.0
+margin_right = 121.0
+margin_bottom = 63.0
+size_flags_horizontal = 3
+text = "Hop size"
+align = 2
+
+[node name="hop_size_option" type="SpinBox" parent="fft_options/center/v_box/grid"]
+margin_left = 131.0
+margin_top = 44.0
+margin_right = 205.0
+margin_bottom = 68.0
+hint_tooltip = "The amount of samples jumped between FFT calculations.
+The horizontal resolution will be better when low.
+Too low numbers don't matter much, but will slow down calculation a lot.
+I don't think you have to use 2's exponents here, though I'd still recommend it."
+size_flags_vertical = 3
+min_value = 32.0
+max_value = 65536.0
+step = 128.0
+value = 1024.0
+exp_edit = true
+rounded = true
+
+[node name="subdivision_label" type="Label" parent="fft_options/center/v_box/grid"]
+margin_top = 93.0
+margin_right = 121.0
+margin_bottom = 107.0
+size_flags_horizontal = 3
+text = "Subdivision"
+align = 2
+
+[node name="subdivision_option" type="SpinBox" parent="fft_options/center/v_box/grid"]
+margin_left = 131.0
+margin_top = 88.0
+margin_right = 205.0
+margin_bottom = 112.0
+hint_tooltip = "The amount of pixels to calculate with the linear to exponential frequency calculation per note.
+This determines the vertical resolution, though FFT size is more responsible for it.
+I recommend using odd numbers here, so the \"main\" frequency is in the middle pixel."
+size_flags_vertical = 3
+min_value = 1.0
+max_value = 255.0
+step = 1.0
+value = 9.0
+rounded = true
+
+[node name="tuning_label" type="Label" parent="fft_options/center/v_box/grid"]
+margin_top = 137.0
+margin_right = 121.0
+margin_bottom = 151.0
+size_flags_horizontal = 3
+text = "Tuning"
+align = 2
+
+[node name="tuning_option" type="SpinBox" parent="fft_options/center/v_box/grid"]
+margin_left = 131.0
+margin_top = 132.0
+margin_right = 205.0
+margin_bottom = 156.0
+hint_tooltip = "The frequency corresponding to the A4 note, also called as midi note 69."
+size_flags_vertical = 3
+min_value = 400.0
+max_value = 500.0
+step = 0.0
+value = 440.0
+allow_greater = true
+allow_lesser = true
+
+[node name="low_high_exponent_label" type="Label" parent="fft_options/center/v_box/grid"]
+margin_top = 181.0
+margin_right = 121.0
+margin_bottom = 195.0
+size_flags_horizontal = 3
+text = "Low-high exponent"
+align = 2
+
+[node name="low_high_exponent_option" type="SpinBox" parent="fft_options/center/v_box/grid"]
+margin_left = 131.0
+margin_top = 176.0
+margin_right = 205.0
+margin_bottom = 200.0
+hint_tooltip = "This controls the magnitude correction applied.
+If bigger, higher notes will be louder, if smaller, lower notes will be louder.
+You can try using it against upper harmonics by lowering it."
+size_flags_vertical = 3
+max_value = 1.5
+step = 0.0
+value = 0.7
+
+[node name="overamplification_label" type="Label" parent="fft_options/center/v_box/grid"]
+margin_top = 225.0
+margin_right = 121.0
+margin_bottom = 239.0
+size_flags_horizontal = 3
+text = "Overamplification"
+align = 2
+
+[node name="overamplification_option" type="SpinBox" parent="fft_options/center/v_box/grid"]
+margin_left = 131.0
+margin_top = 220.0
+margin_right = 205.0
+margin_bottom = 244.0
+hint_tooltip = "The normalized magnitudes are multiplied by this, making everything louder.
+The overamplified magnitudes are clamped at the max value (1)."
+size_flags_vertical = 3
+min_value = 1.0
+max_value = 20.0
+step = 0.0
+value = 2.0
+
+[node name="recalculate_fft" type="Button" parent="fft_options/center/v_box"]
+margin_top = 264.0
+margin_right = 205.0
+margin_bottom = 284.0
+focus_mode = 0
+text = "Recalculate FFT"
+
+[connection signal="pressed" from="toolbar_separator/toolbar/load_file" to="toolbar_separator/toolbar" method="_on_load_file_pressed"]
 [connection signal="item_selected" from="toolbar_separator/toolbar/source_option" to="toolbar_separator/toolbar" method="_on_source_option_item_selected"]
+[connection signal="pressed" from="toolbar_separator/toolbar/cursor_options" to="toolbar_separator/toolbar" method="_on_cursor_options_pressed"]
+[connection signal="pressed" from="toolbar_separator/toolbar/fft_options" to="toolbar_separator/toolbar" method="_on_fft_options_pressed"]
 [connection signal="area_entered" from="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area" to="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor" method="_on_area_area_entered"]
 [connection signal="area_exited" from="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area" to="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor" method="_on_area_area_exited"]
 [connection signal="gui_input" from="toolbar_separator/working_area/graph_scroll_container/graph_spacer" to="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area/notes" method="_on_graph_spacer_gui_input"]
-[connection signal="file_selected" from="file_dialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="file_selected" from="open_file_dialog" to="open_file_dialog" method="_on_open_file_dialog_file_selected"]
+[connection signal="toggled" from="cursor_options/center/grid/playback_option" to="cursor_options" method="_on_playback_option_toggled"]
+[connection signal="item_selected" from="cursor_options/center/grid/follow_option" to="cursor_options" method="_on_follow_option_item_selected"]
+[connection signal="pressed" from="fft_options/center/v_box/recalculate_fft" to="fft_options" method="_on_recalculate_fft_pressed"]

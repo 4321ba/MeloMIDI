@@ -1,0 +1,21 @@
+important:
+-fft, conversion options, popup windows
+-save midi
+-play note on piano with left click
+-shortcut for changing playback type
+-double fft, and lerp between them:
+a larger fftsize for lower pitches and a smaller fft size for higher pitches
+-improve conversion somehow, or more options
+
+less important:
+-zooming with scrollbar on side scrollcontainers with wheel
+-move note around with grabbing the middle of it
+-cut notes in half with middle click
+-save user preferences maybe
+-better color scheme and option to change it maybe
+-ability to change instrument individually and for pitches / ranges
+-remove notes in range / range selection
+-quantization or how adding horizontal alignment/snap is called
+-auto quantization recognition
+-percussion editor and maybe recognition
+-integrate a theme

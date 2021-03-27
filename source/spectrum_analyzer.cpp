@@ -1,5 +1,4 @@
 #include <vector>
-#include <functional> 
 //includes from godot-cpp
 #include <Godot.hpp>
 #include <Reference.hpp>
@@ -29,7 +28,7 @@ public:
     std::vector<std::vector<float>> magnitudes;
     
     
-    Array analyze_spectrum(String filename_godot, int fft_size, int hop_size, int subdivision, float tuning, float low_high_exponent) {
+    Array analyze_spectrum(String filename_godot, int fft_size, int hop_size, int subdivision, float tuning, float low_high_exponent, float overamplification_multiplier) {
         
         Godot::print("Loading audio file " + filename_godot);
         //conversion from godot::String to std::string is from https://godotengine.org/qa/18552/gdnative-convert-godot-string-to-const-char
@@ -141,12 +140,15 @@ public:
         //they want me to use this, which I don't know if it's good, but it works so far
         ::free(cfg);
         
+        max_magnitude /= overamplification_multiplier;
+        int width = magnitudes[0].size();
         for (auto & tick_magnitudes: magnitudes) {
-            //we need to #include functional for this
-            std::transform(tick_magnitudes.begin(), tick_magnitudes.end(), tick_magnitudes.begin(),
-                           std::bind(std::divides<float>(), std::placeholders::_1, max_magnitude));
+            for (int i = 0; i < width; i++) {
+                tick_magnitudes[i] /= max_magnitude;
+                if (tick_magnitudes[i] > 1) { tick_magnitudes[i] = 1; }
+            }
         }
-        std::cout << "Size of the data is " << magnitudes.size() << " by " << magnitudes[0].size() << std::endl;
+        std::cout << "Size of the data is " << magnitudes.size() << " by " << width << std::endl;
         
         Array return_array;
         return_array.append(sample_rate);
@@ -187,7 +189,7 @@ public:
     }
     
     
-    PoolIntArray guess_notes(float note_on_threshold, float note_off_threshold, float octave_removal_multiplier, int minimum_length, float volume_multiplier) {
+    PoolIntArray guess_notes(float note_on_threshold, float note_off_threshold, float octave_removal_multiplier, int minimum_length, float volume_multiplier, int note_recognition_negative_delay) {
         
         int subdivision = magnitudes[0].size() / 128;
         std::vector<std::vector<float>> note_strengths;
@@ -239,7 +241,10 @@ public:
                 if (note >= 12) { magnitude -= note_strengths[tick][note - 12] * octave_removal_multiplier; }
                 if (not is_note_playing and magnitude >= note_on_threshold) {
                     is_note_playing = true;
-                    note_begin_tick = tick;
+                    //if there's a note then it probably started a bit before, it just didn't reach the note_on_threshold
+                    //so we try to compensate that here
+                    note_begin_tick = tick - note_recognition_negative_delay;
+                    if (note_begin_tick < 0) { note_begin_tick = 0; }
                 }
                 if (is_note_playing and magnitude > peak_magnitude) { peak_magnitude = magnitude; }
                 if (is_note_playing and magnitude <= note_off_threshold) {

@@ -29,12 +29,12 @@ func _input(event):
 		#because of the built-in functionality
 		get_tree().set_input_as_handled()
 
-func reset(file_to_load):
+func reset():
 	scroll_horizontal = 0
 	scroll_vertical = 0
 	graph_area.scale = Vector2(1, 1)
 	
-	var new_spectrum_sprites = spectrum_analyzer.analyze_spectrum(file_to_load)
+	var new_spectrum_sprites = spectrum_analyzer.analyze_spectrum()
 	for spectrum_sprite in spectrum_sprites.get_children():
 		spectrum_sprite.queue_free()
 	var current_width := 0

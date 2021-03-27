@@ -6,6 +6,7 @@ var hop_size: int = 1024
 var subdivision: int = 9
 var tuning: float = 440
 var low_high_exponent: float = 0.7
+var overamplification_multiplier: float = 2
 
 #note guesser options
 var note_on_threshold: float = 0.035
@@ -13,14 +14,17 @@ var note_off_threshold: float = 0.025
 var octave_removal_multiplier: float = 0.2
 var minimum_length: int = 8
 var volume_multiplier: float = 4
+var note_recognition_negative_delay: int = 2
 
 var sample_rate: int
 var texture_size: Vector2
 
+var file_path: String
+
 var native_library = preload("res://bin/spectrum_analyzer.gdns").new()
 
-func analyze_spectrum(filename: String) -> Array:
-	var return_array: Array = native_library.analyze_spectrum(filename, fft_size, hop_size, subdivision, tuning, low_high_exponent)
+func analyze_spectrum() -> Array:
+	var return_array: Array = native_library.analyze_spectrum(file_path, fft_size, hop_size, subdivision, tuning, low_high_exponent, overamplification_multiplier)
 	sample_rate = return_array[0]
 	texture_size = Vector2(return_array[1], return_array[2])
 	
@@ -36,5 +40,5 @@ func analyze_spectrum(filename: String) -> Array:
 	return spectrum_sprites
 
 func get_guessed_notes() -> PoolIntArray:
-	return native_library.guess_notes(note_on_threshold, note_off_threshold, octave_removal_multiplier, minimum_length, volume_multiplier)
+	return native_library.guess_notes(note_on_threshold, note_off_threshold, octave_removal_multiplier, minimum_length, volume_multiplier, note_recognition_negative_delay)
 	
