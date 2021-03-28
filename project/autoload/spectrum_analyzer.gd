@@ -1,16 +1,20 @@
 extends Node
 
 #fft options
-var fft_size: int = 16384
+var use_2_ffts: bool = true
+var fft_size_low: int = 16384
+var low_high_exponent_low: float = 0.7
+var overamplification_multiplier_low: float = 2
+var fft_size_high: int = 4096
+var low_high_exponent_high: float = 0.6
+var overamplification_multiplier_high: float = 2
 var hop_size: int = 1024
 var subdivision: int = 9
 var tuning: float = 440
-var low_high_exponent: float = 0.7
-var overamplification_multiplier: float = 2
 
 #note guesser options
-var note_on_threshold: float = 0.035
-var note_off_threshold: float = 0.025
+var note_on_threshold: float = 0.1
+var note_off_threshold: float = 0.07
 var octave_removal_multiplier: float = 0.2
 var minimum_length: int = 8
 var volume_multiplier: float = 4
@@ -24,7 +28,7 @@ var file_path: String
 var native_library = preload("res://bin/spectrum_analyzer.gdns").new()
 
 func analyze_spectrum() -> Array:
-	var return_array: Array = native_library.analyze_spectrum(file_path, fft_size, hop_size, subdivision, tuning, low_high_exponent, overamplification_multiplier)
+	var return_array: Array = native_library.analyze_spectrum(file_path, fft_size_low, hop_size, subdivision, tuning, low_high_exponent_low, overamplification_multiplier_low)
 	sample_rate = return_array[0]
 	texture_size = Vector2(return_array[1], return_array[2])
 	

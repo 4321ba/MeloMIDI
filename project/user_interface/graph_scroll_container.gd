@@ -33,7 +33,11 @@ func reset():
 	scroll_horizontal = 0
 	scroll_vertical = 0
 	graph_area.scale = Vector2(1, 1)
-	
+	calculate_new_spectrum_sprites()
+	calculate_new_notes()
+
+func calculate_new_spectrum_sprites():
+	notes.remove_notes()
 	var new_spectrum_sprites = spectrum_analyzer.analyze_spectrum()
 	for spectrum_sprite in spectrum_sprites.get_children():
 		spectrum_sprite.queue_free()
@@ -44,7 +48,8 @@ func reset():
 		spectrum_sprites.add_child(spectrum_sprite)
 	stripes.update()
 	update_graph_spacer()
-	
+
+func calculate_new_notes():
 	notes.remove_notes()
 	notes.add_notes(spectrum_analyzer.get_guessed_notes())
 

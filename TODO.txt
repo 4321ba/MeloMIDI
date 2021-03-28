@@ -11,6 +11,7 @@ less important:
 -zooming with scrollbar on side scrollcontainers with wheel
 -move note around with grabbing the middle of it
 -cut notes in half with middle click
+-merge notes if they overlap (maybe)
 -save user preferences maybe
 -better color scheme and option to change it maybe
 -ability to change instrument individually and for pitches / ranges
