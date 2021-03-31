@@ -39,6 +39,7 @@ __meta__ = {
 }
 
 [node name="area" type="Area2D" parent="."]
+position = Vector2( -1, 0 )
 
 [node name="collision" type="CollisionShape2D" parent="area"]
 

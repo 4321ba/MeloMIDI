@@ -296,7 +296,7 @@ margin_top = 34.0
 margin_right = 201.0
 margin_bottom = 54.0
 hint_tooltip = "If this is on, we calculate 2 separate FFTs, one for lower notes
-and one for higher notes. We then average between them,
+and one for higher notes. We then interpolate between them,
 using mostly the low FFT's data for lower notes, and the high
 FFT's data for higher notes. This tries to complement the
 limitation of FFTs described in FFT size."
@@ -472,6 +472,7 @@ margin_bottom = 24.0
 hint_tooltip = "The amount of samples jumped between FFT calculations.
 The horizontal resolution will be better when low.
 Too low numbers don't matter much, but will slow down calculation a lot.
+Not beneficial to use less than the quarter of FFT size.
 I don't think you have to use 2's exponents here, though I'd still recommend it."
 size_flags_vertical = 3
 min_value = 32.0
@@ -516,11 +517,15 @@ margin_left = 83.0
 margin_top = 88.0
 margin_right = 157.0
 margin_bottom = 112.0
-hint_tooltip = "The frequency corresponding to the A4 note, also called as midi note 69."
+hint_tooltip = "The frequency corresponding to the A4 note, also called as midi note 69.
+This is used when calculating the image, so if the notes that are played
+fall between two piano keys, then change this.
+This doesn't change the wave playback."
 size_flags_vertical = 3
 min_value = 400.0
 max_value = 500.0
 step = 0.0
+value = 400.0
 allow_greater = true
 allow_lesser = true
 
@@ -691,7 +696,7 @@ text = "Recalculate FFT"
 margin_left = 130.0
 margin_right = 324.0
 margin_bottom = 20.0
-hint_tooltip = "Press this to recalculate the notes but not the image."
+hint_tooltip = "Press this to recalculate the notes, but not the image."
 focus_mode = 0
 text = "Recalculate note recognition"
 

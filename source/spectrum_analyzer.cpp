@@ -28,51 +28,25 @@ public:
     std::vector<std::vector<float>> magnitudes;
     
     
-    Array analyze_spectrum(String filename_godot, int fft_size, int hop_size, int subdivision, float tuning, float low_high_exponent, float overamplification_multiplier) {
+    std::vector<std::vector<float>> analyze_subspectrum(std::vector<float> samples, int sample_rate, int fft_size, float low_high_exponent, float overamplification_multiplier, int hop_size, int subdivision, float tuning) {
         
-        Godot::print("Loading audio file " + filename_godot);
-        //conversion from godot::String to std::string is from https://godotengine.org/qa/18552/gdnative-convert-godot-string-to-const-char
-        std::wstring filename_wstring = filename_godot.unicode_str();
-        std::string filename_string(filename_wstring.begin(), filename_wstring.end());
-        //use libnyquist to get the raw audio data
-        std::shared_ptr<nqr::AudioData> file_data = std::make_shared<nqr::AudioData>();
-        nqr::NyquistIO loader;
-        loader.Load(file_data.get(), filename_string);
-        
-        int sample_rate = file_data->sampleRate;
-        int original_sample_size = file_data->samples.size();
-        int channel_count = file_data->channelCount;
-        int sample_size = original_sample_size / channel_count;
-        //using std::cout because I couldn't find an easy way to print ints with Godot::print
-        std::cout << "Sample rate is " << sample_rate << std::endl;
-        std::cout << "Original sample size is " << original_sample_size << std::endl;
-        std::cout << "Channel count is " << channel_count << std::endl;
-        
-        std::vector<float> samples;
         //adding silence to the beginning
-        for (int i = 0; i < fft_size / 2; i++) { samples.push_back(0.0f); }
-        //averaging all channels so samples become mono
-        for (int i = 0; i < sample_size; i++) {
-            samples.push_back(std::accumulate(
-                file_data->samples.begin() + channel_count * i,
-                file_data->samples.begin() + channel_count * (i + 1),
-                0.0f) / channel_count);
-        }
+        for (int i = 0; i < fft_size / 2; i++) { samples.insert(samples.begin(), 0.0f); }
         //adding silence to the end
         for (int i = 0; i < fft_size / 2; i++) { samples.push_back(0.0f); }
-        sample_size += fft_size;
-        std::cout << "Sample size is " << sample_size << std::endl;
-        std::cout << "Mono sample-vector size is " << samples.size() << std::endl;
         
         //we don't need all the frequencies, we only need them below 14000 Hz, because the others are above the highest midi note
         int frequency_limit_count = 14000 * fft_size / sample_rate;
+        int sample_size = samples.size();
+        std::cout << "Calculating subspectrum with parameters:" << std::endl;
         std::cout << "FFT size is " << fft_size << std::endl;
         std::cout << "Hop size is " << hop_size << std::endl;
+        std::cout << "Sample size is " << sample_size << std::endl;
         std::cout << "Frequency limit count is " << frequency_limit_count << std::endl;
         
         //we go through the whole wave file, and we calculate an fft with the size of fft_size, after jumping by hop_size
-        magnitudes.clear();
         float max_magnitude = 0;
+        std::vector<std::vector<float>> return_magnitudes;
         kiss_fft_cfg cfg = kiss_fft_alloc(fft_size, 0, 0, 0);
         kiss_fft_cpx cx_in[fft_size];
         kiss_fft_cpx cx_out[fft_size];
@@ -125,12 +99,13 @@ public:
                     //we need to smooth the border between where 1 and where 2 or more are added
                     //and also magnitudes are probably 2* as loud 1 octave lower
                     //because there are /2 less samples/frequencies analyzed
+                    //but it is configurable, because people might need upper harmonics less
                     sum *= pow(frequency / 110.0, low_high_exponent) / (end_count - begin_count);
                     if (sum > max_magnitude) { max_magnitude = sum; }
                     exponential_magnitudes.push_back(sum);
                 }
             }
-            magnitudes.push_back(exponential_magnitudes);
+            return_magnitudes.push_back(exponential_magnitudes);
         }
         //because of unknown reasons using kiss_fft_free throws an error
         //but this should be here according to everything, mainly https://github.com/mborgerding/kissfft#usage
@@ -140,16 +115,89 @@ public:
         //they want me to use this, which I don't know if it's good, but it works so far
         ::free(cfg);
         
+        //we don't cap magnitudes at 1, they will be capped after the merge
         max_magnitude /= overamplification_multiplier;
-        int width = magnitudes[0].size();
-        for (auto & tick_magnitudes: magnitudes) {
-            for (int i = 0; i < width; i++) {
+        int height = return_magnitudes[0].size();
+        for (auto & tick_magnitudes: return_magnitudes) {
+            for (int i = 0; i < height; i++) {
                 tick_magnitudes[i] /= max_magnitude;
-                if (tick_magnitudes[i] > 1) { tick_magnitudes[i] = 1; }
             }
         }
-        std::cout << "Size of the data is " << magnitudes.size() << " by " << width << std::endl;
+        std::cout << "Size of the subdata is " << return_magnitudes.size() << " by " << height << std::endl;
+        return return_magnitudes;
+    }
+    
+    
+    Array analyze_spectrum(String filename_godot, bool use_2_ffts, int fft_size_low, float low_high_exponent_low, float overamplification_multiplier_low, int fft_size_high, float low_high_exponent_high, float overamplification_multiplier_high, int hop_size, int subdivision, float tuning) {
         
+        Godot::print("Loading audio file " + filename_godot);
+        //conversion from godot::String to std::string is from https://godotengine.org/qa/18552/gdnative-convert-godot-string-to-const-char
+        std::wstring filename_wstring = filename_godot.unicode_str();
+        std::string filename_string(filename_wstring.begin(), filename_wstring.end());
+        //use libnyquist to get the raw audio data
+        std::shared_ptr<nqr::AudioData> file_data = std::make_shared<nqr::AudioData>();
+        nqr::NyquistIO loader;
+        loader.Load(file_data.get(), filename_string);
+        
+        int sample_rate = file_data->sampleRate;
+        int original_sample_size = file_data->samples.size();
+        int channel_count = file_data->channelCount;
+        int sample_size = original_sample_size / channel_count;
+        //using std::cout because I couldn't find an easy way to print ints with Godot::print
+        std::cout << "Sample rate is " << sample_rate << std::endl;
+        std::cout << "Original sample size is " << original_sample_size << std::endl;
+        std::cout << "Channel count is " << channel_count << std::endl;
+        
+        std::vector<float> samples;
+        //averaging all channels so samples become mono
+        for (int i = 0; i < sample_size; i++) {
+            samples.push_back(std::accumulate(
+                file_data->samples.begin() + channel_count * i,
+                file_data->samples.begin() + channel_count * (i + 1),
+                0.0f) / channel_count);
+        }
+        
+        //now we call analyze_subspectrum, once or twice, and then normalize the magnitudes
+        std::vector<std::vector<float>> magnitudes_low = analyze_subspectrum(samples, sample_rate, fft_size_low, low_high_exponent_low, overamplification_multiplier_low, hop_size, subdivision, tuning);
+        if (use_2_ffts) {
+            std::vector<std::vector<float>> magnitudes_high = analyze_subspectrum(samples, sample_rate, fft_size_high, low_high_exponent_high, overamplification_multiplier_high, hop_size, subdivision, tuning);
+            
+            if (magnitudes_low.size() != magnitudes_high.size() or magnitudes_low[0].size() != magnitudes_high[0].size()) {
+                std::cout << "Warning! The resolutions of the low and high magnitudes aren't the same!" << std::endl;
+            }
+            int width = magnitudes_low.size() < magnitudes_high.size() ? magnitudes_low.size() : magnitudes_high.size();
+            int height = magnitudes_low[0].size() < magnitudes_high[0].size() ? magnitudes_low[0].size() : magnitudes_high[0].size();
+            
+            magnitudes.clear();
+            for (int x = 0; x < width; x++) {
+                std::vector<float> merged_magnitudes;
+                for (int y = 0; y < height; y++) {
+                    //we're using an easing called easeInOutExpo to interpolate between the low and high ffts
+                    //code source: https://easings.net/en#easeInOutExpo
+                    float normalized = y / (height - 1.0);
+                    float weight = normalized < 0.5 ? pow(2, 20 * normalized - 10) / 2 : (2 - pow(2, -20 * normalized + 10)) / 2;
+                    float magnitude = (1 - weight) * magnitudes_low[x][y] + weight * magnitudes_high[x][y];
+                    if (magnitude > 1) { magnitude = 1; }
+                    merged_magnitudes.push_back(magnitude);
+                }
+                magnitudes.push_back(merged_magnitudes);
+            }
+        } else {
+            //we sadly need to loop through once again even if we only do one fft, I'm not that concerned with performance
+            //knowing that it's much better than gdscript anyway, but I hope that these aren't slowing things down terribly
+            //and by that I mean that hopefully this takes at most 0.1 s
+            //we need to loop through again to clamp the magnitudes at 1, because we can't do it in analyze_subspectrum,
+            //because we need the overamplified values when there are 2 ffts
+            magnitudes = magnitudes_low;
+            int height = magnitudes[0].size();
+            for (auto & tick_magnitudes: magnitudes) {
+                for (int i = 0; i < height; i++) {
+                    if (tick_magnitudes[i] > 1) { tick_magnitudes[i] = 1; }
+                }
+            }
+        }
+        
+        std::cout << "Size of the data is " << magnitudes.size() << " by " << magnitudes[0].size() << std::endl;
         Array return_array;
         return_array.append(sample_rate);
         return_array.append(magnitudes.size());
