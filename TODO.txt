@@ -8,6 +8,7 @@ important:
 -hide notes option
 -rename Options to Conversion options
 -general cleanup + rework cursor options button and popup
+-compile for windows
 
 less important:
 -zooming with scrollbar on side scrollcontainers with wheel
@@ -22,3 +23,4 @@ less important:
 -auto quantization recognition
 -percussion editor and maybe recognition
 -integrate a theme, or at least a better font
+-make making easier with cmake
