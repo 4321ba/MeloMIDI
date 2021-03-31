@@ -28,7 +28,11 @@ var file_path: String
 var native_library = preload("res://bin/spectrum_analyzer.gdns").new()
 
 func analyze_spectrum() -> Array:
-	var return_array: Array = native_library.analyze_spectrum(file_path, use_2_ffts, fft_size_low, low_high_exponent_low, overamplification_multiplier_low, fft_size_high, low_high_exponent_high, overamplification_multiplier_high, hop_size, subdivision, tuning)
+	print("Loading audio file ", file_path)
+	var file: File = File.new()
+	file.open(file_path, File.READ)
+	var bytes: PoolByteArray = file.get_buffer(file.get_len())
+	var return_array: Array = native_library.analyze_spectrum(bytes, use_2_ffts, fft_size_low, low_high_exponent_low, overamplification_multiplier_low, fft_size_high, low_high_exponent_high, overamplification_multiplier_high, hop_size, subdivision, tuning)
 	sample_rate = return_array[0]
 	texture_size = Vector2(return_array[1], return_array[2])
 	

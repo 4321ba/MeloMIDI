@@ -29,16 +29,17 @@ public:
     
     
     std::vector<std::vector<float>> analyze_subspectrum(std::vector<float> samples, int sample_rate, int fft_size, float low_high_exponent, float overamplification_multiplier, int hop_size, int subdivision, float tuning) {
+        std::cout << "Calculating subspectrum with parameters:" << std::endl;
         
-        //adding silence to the beginning
-        for (int i = 0; i < fft_size / 2; i++) { samples.insert(samples.begin(), 0.0f); }
-        //adding silence to the end
-        for (int i = 0; i < fft_size / 2; i++) { samples.push_back(0.0f); }
+        //adding silence to the beginning and to the end
+        std::vector<float> silence;
+        for (int i = 0; i < fft_size / 2; i++) { silence.push_back(0.0f); }
+        samples.insert(samples.begin(), silence.begin(), silence.end());
+        samples.insert(samples.end(), silence.begin(), silence.end());
         
         //we don't need all the frequencies, we only need them below 14000 Hz, because the others are above the highest midi note
         int frequency_limit_count = 14000 * fft_size / sample_rate;
         int sample_size = samples.size();
-        std::cout << "Calculating subspectrum with parameters:" << std::endl;
         std::cout << "FFT size is " << fft_size << std::endl;
         std::cout << "Hop size is " << hop_size << std::endl;
         std::cout << "Sample size is " << sample_size << std::endl;
@@ -128,16 +129,24 @@ public:
     }
     
     
-    Array analyze_spectrum(String filename_godot, bool use_2_ffts, int fft_size_low, float low_high_exponent_low, float overamplification_multiplier_low, int fft_size_high, float low_high_exponent_high, float overamplification_multiplier_high, int hop_size, int subdivision, float tuning) {
+    Array analyze_spectrum(PoolByteArray bytes, bool use_2_ffts, int fft_size_low, float low_high_exponent_low, float overamplification_multiplier_low, int fft_size_high, float low_high_exponent_high, float overamplification_multiplier_high, int hop_size, int subdivision, float tuning) {
         
-        Godot::print("Loading audio file " + filename_godot);
-        //conversion from godot::String to std::string is from https://godotengine.org/qa/18552/gdnative-convert-godot-string-to-const-char
-        std::wstring filename_wstring = filename_godot.unicode_str();
-        std::string filename_string(filename_wstring.begin(), filename_wstring.end());
+        //converting godot::PoolByteArray to std::vector<uint8_t>
+        //I figured I'll be better off reading the file with Godot, because:
+        //I don't need to worry about converting godot::String to std::string
+        //utf8 and other stuff isn't messed up in the filename
+        //I can open the file the exact same way as GDScriptAudioImport.gd opens it
+        //and I might as well do it in GDScript
+        //this conversion is much easier than converting the path
+        //I'm also concerned because on Windows Godot still C:/returns/paths/this/way
+        //which libnyquist most probably won't be able to handle without me doing conversions
+        std::vector<uint8_t> encoded_audio;
+        for (int i = 0; i < bytes.size(); i++) { encoded_audio.push_back(bytes[i]); }
+        
         //use libnyquist to get the raw audio data
         std::shared_ptr<nqr::AudioData> file_data = std::make_shared<nqr::AudioData>();
         nqr::NyquistIO loader;
-        loader.Load(file_data.get(), filename_string);
+        loader.Load(file_data.get(), encoded_audio);
         
         int sample_rate = file_data->sampleRate;
         int original_sample_size = file_data->samples.size();
@@ -233,12 +242,14 @@ public:
             image->flip_y();
             images.append(image);
         }
+        std::cout << "Returning " << images.size() << " images" << std::endl;
         return images;
     }
     
     
     PoolIntArray guess_notes(float note_on_threshold, float note_off_threshold, float octave_removal_multiplier, int minimum_length, float volume_multiplier, int note_recognition_negative_delay) {
         
+        std::cout << "Guessing notes..." << std::endl;
         int subdivision = magnitudes[0].size() / 128;
         std::vector<std::vector<float>> note_strengths;
         for (auto & current_magnitudes: magnitudes) {
@@ -317,6 +328,7 @@ public:
                 notes.append(peak_magnitude * 128 * volume_multiplier);
             }
         }
+        std::cout << notes.size() / 4 << " notes guessed" << std::endl;
         return notes;
     }
     
