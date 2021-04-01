@@ -58,6 +58,7 @@ config/icon="res://icon.png"
 
 spectrum_analyzer="*res://autoload/spectrum_analyzer.gd"
 audio_importer="*res://addons/GDScriptAudioImport.gd"
+midi_saver="*res://autoload/midi_saver.gd"
 wave_player="*res://autoload/wave_player.tscn"
 midi_player="*res://autoload/midi_player.tscn"
 options="*res://autoload/options.gd"

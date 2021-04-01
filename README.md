@@ -1,6 +1,6 @@
 # MeloMIDI
 An interactive wave to midi editor, music transcription software.  
-Work in progress, it can't save the converted audio yet, but visualization, playback, note placement, modification and removal, and conversion with options is working.  
+Work in progress, but it can already save the converted audio; and visualization, playback, note placement, modification and removal, and conversion with options are also working.  
 # Download
 Releases coming soonTM!  
 If you're adventurous, you can clone the repository and open it in Godot 3.3+ (currently in Release Candidate). For Linux, you (hopefully) don't even need to compile spectrum_analyzer.cpp.  
@@ -26,3 +26,10 @@ Try doing something similar to Linux. Also put the path into the `.dll` file int
 I have yet to figure this out.  
 ## Mac
 If someone is interested I'd gladly help, but I can't test it.  
+# Used software
+[godot](https://github.com/godotengine/godot) game engine 3.3+ for everything  
+[godot-midi-player](https://bitbucket.org/arlez80/godot-midi-player/src/master/) for playing and saving MIDI in GDScript  
+[GDScriptAudioImport](https://github.com/Gianclgar/GDScriptAudioImport) for importing audio at runtime into godot streams  
+[godot-cpp](https://github.com/godotengine/godot-cpp) bindings for high performance calculations and library integration  
+[kissfft](https://github.com/mborgerding/kissfft) for easy to use Fast Fourier Transform calculations  
+[libnyquist](https://github.com/ddiakopoulos/libnyquist) for decompressing audio into raw audio data in C++  

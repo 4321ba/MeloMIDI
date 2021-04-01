@@ -33,3 +33,10 @@ func add_notes(notes: PoolIntArray):
 		note.note = notes[4 * i + 2]
 		note.velocity = notes[4 * i + 3]
 		add_child(note)
+
+func get_notes() -> PoolVector3Array:
+	var notes: PoolVector3Array
+	for note in get_children():
+		notes.append(Vector3(note.begin, note.note, note.velocity))
+		notes.append(Vector3(note.begin + note.length, note.note, 0))
+	return notes

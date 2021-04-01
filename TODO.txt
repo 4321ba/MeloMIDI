@@ -1,5 +1,4 @@
 important:
--save midi
 -popup window that warns user about the crappy performance
 -play note on piano with left click
 -shortcut for changing playback type

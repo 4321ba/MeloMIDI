@@ -7,10 +7,6 @@ func _ready():
 	current_dir = path
 	current_path = path
 
-func _unhandled_key_input(event):
-	if visible and event.is_action_pressed("ui_cancel"):
-		visible = false
-
 func _on_open_file_dialog_file_selected(path):
 	spectrum_analyzer.file_path = path
 	wave_player.load_file()

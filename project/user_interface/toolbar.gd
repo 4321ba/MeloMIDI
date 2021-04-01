@@ -1,11 +1,15 @@
 extends HBoxContainer
 
 onready var open_file_dialog: FileDialog = $"../../open_file_dialog"
+onready var save_file_dialog: FileDialog = $"../../save_file_dialog"
 onready var cursor_options: WindowDialog = $"../../cursor_options"
 onready var options_window: WindowDialog = $"../../options_window"
 
 func _on_load_file_pressed():
 	open_file_dialog.popup_centered()
+
+func _on_save_midi_file_button_pressed():
+	save_file_dialog.popup_centered()
 
 func _on_source_option_item_selected(index):
 	var wave_bus: int = AudioServer.get_bus_index("Wave")

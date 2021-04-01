@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://user_interface/options_window.gd" type="Script" id=1]
 [ext_resource path="res://user_interface/timeline_scroll_container.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://user_interface/playback_cursor.gd" type="Script" id=10]
 [ext_resource path="res://user_interface/cursor_options.gd" type="Script" id=11]
 [ext_resource path="res://user_interface/open_file_dialog.gd" type="Script" id=12]
+[ext_resource path="res://user_interface/save_file_dialog.gd" type="Script" id=13]
 
 [sub_resource type="SegmentShape2D" id=1]
 b = Vector2( 0, 0 )
@@ -37,23 +38,30 @@ custom_constants/separation = 10
 script = ExtResource( 7 )
 
 [node name="load_file" type="Button" parent="toolbar_separator/toolbar"]
-margin_right = 66.0
+margin_right = 102.0
 margin_bottom = 20.0
 hint_tooltip = "Load a wave audio file to be processed."
 focus_mode = 0
-text = "Load file"
+text = "Load wave file"
 
 [node name="options_button" type="Button" parent="toolbar_separator/toolbar"]
-margin_left = 76.0
-margin_right = 139.0
+margin_left = 112.0
+margin_right = 175.0
 margin_bottom = 20.0
 hint_tooltip = "Options regarding the image generation which also affect note recognition."
 focus_mode = 0
 text = "Options"
 
+[node name="save_midi_file_button" type="Button" parent="toolbar_separator/toolbar"]
+margin_left = 185.0
+margin_right = 283.0
+margin_bottom = 20.0
+focus_mode = 0
+text = "Save midi file"
+
 [node name="source_option" type="OptionButton" parent="toolbar_separator/toolbar"]
-margin_left = 149.0
-margin_right = 300.0
+margin_left = 293.0
+margin_right = 444.0
 margin_bottom = 20.0
 hint_tooltip = "Which audio source should be played: wave or midi?"
 focus_mode = 0
@@ -65,8 +73,8 @@ __meta__ = {
 }
 
 [node name="cursor_options" type="Button" parent="toolbar_separator/toolbar"]
-margin_left = 310.0
-margin_right = 415.0
+margin_left = 454.0
+margin_right = 559.0
 margin_bottom = 20.0
 hint_tooltip = "Options regarding the playback cursor and screen position."
 focus_mode = 0
@@ -155,8 +163,9 @@ margin_top = -300.0
 margin_right = 400.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 400, 200 )
-window_title = "Open a File"
+window_title = "Open a wave file"
 resizable = true
+mode_overrides_title = false
 mode = 0
 access = 2
 filters = PoolStringArray( "*.wav ; WAV files", "*.ogg ; OGG Vorbis files", "*.mp3 ; MP3 files" )
@@ -166,6 +175,24 @@ script = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="save_file_dialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -400.0
+margin_top = -300.0
+margin_right = 400.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 400, 200 )
+window_title = "Save the midi file"
+resizable = true
+access = 2
+filters = PoolStringArray( "*.mid ; MIDI files" )
+current_dir = "/"
+current_path = "/"
+script = ExtResource( 13 )
 
 [node name="cursor_options" type="WindowDialog" parent="."]
 anchor_left = 0.5
@@ -709,12 +736,14 @@ text = "Recalculate both"
 
 [connection signal="pressed" from="toolbar_separator/toolbar/load_file" to="toolbar_separator/toolbar" method="_on_load_file_pressed"]
 [connection signal="pressed" from="toolbar_separator/toolbar/options_button" to="toolbar_separator/toolbar" method="_on_options_button_pressed"]
+[connection signal="pressed" from="toolbar_separator/toolbar/save_midi_file_button" to="toolbar_separator/toolbar" method="_on_save_midi_file_button_pressed"]
 [connection signal="item_selected" from="toolbar_separator/toolbar/source_option" to="toolbar_separator/toolbar" method="_on_source_option_item_selected"]
 [connection signal="pressed" from="toolbar_separator/toolbar/cursor_options" to="toolbar_separator/toolbar" method="_on_cursor_options_pressed"]
 [connection signal="area_entered" from="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area" to="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor" method="_on_area_area_entered"]
 [connection signal="area_exited" from="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area" to="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor" method="_on_area_area_exited"]
 [connection signal="gui_input" from="toolbar_separator/working_area/graph_scroll_container/graph_spacer" to="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area/notes" method="_on_graph_spacer_gui_input"]
 [connection signal="file_selected" from="open_file_dialog" to="open_file_dialog" method="_on_open_file_dialog_file_selected"]
+[connection signal="file_selected" from="save_file_dialog" to="save_file_dialog" method="_on_save_file_dialog_file_selected"]
 [connection signal="toggled" from="cursor_options/center/grid/playback_option" to="cursor_options" method="_on_playback_option_toggled"]
 [connection signal="item_selected" from="cursor_options/center/grid/follow_option" to="cursor_options" method="_on_follow_option_item_selected"]
 [connection signal="toggled" from="options_window/center/bottom_separator/options_body/fft_part/two_ffts_option" to="options_window" method="_on_two_ffts_option_toggled"]

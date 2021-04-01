@@ -49,4 +49,3 @@ func analyze_spectrum() -> Array:
 
 func get_guessed_notes() -> PoolIntArray:
 	return native_library.guess_notes(note_on_threshold, note_off_threshold, octave_removal_multiplier, minimum_length, volume_multiplier, note_recognition_negative_delay)
-	
