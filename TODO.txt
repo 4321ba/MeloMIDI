@@ -1,11 +1,8 @@
 important:
--popup window that warns user about the crappy performance
 -shortcut for changing playback type
 -remove negative delay option, add drum compensation option (make it configurable)
--improve conversion somehow, or more options
 -hide notes option
--rename Options to Conversion options
--general cleanup + rework cursor options button and popup
+-general cleanup + rework cursor options button and popup, and options.gd
 -compile for windows
 
 less important:

@@ -3,7 +3,7 @@ extends HBoxContainer
 onready var open_file_dialog: FileDialog = $"../../open_file_dialog"
 onready var save_file_dialog: FileDialog = $"../../save_file_dialog"
 onready var cursor_options: WindowDialog = $"../../cursor_options"
-onready var options_window: WindowDialog = $"../../options_window"
+onready var conversion_options_window: WindowDialog = $"../../conversion_options_window"
 
 func _on_load_file_pressed():
 	open_file_dialog.popup_centered()
@@ -35,5 +35,5 @@ func _on_source_option_item_selected(index):
 func _on_cursor_options_pressed():
 	cursor_options.popup_centered()
 
-func _on_options_button_pressed():
-	options_window.popup_centered()
+func _on_conversion_options_button_pressed():
+	conversion_options_window.popup_centered()

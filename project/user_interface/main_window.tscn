@@ -1,6 +1,6 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
-[ext_resource path="res://user_interface/options_window.gd" type="Script" id=1]
+[ext_resource path="res://user_interface/conversion_options_window.gd" type="Script" id=1]
 [ext_resource path="res://user_interface/timeline_scroll_container.gd" type="Script" id=2]
 [ext_resource path="res://user_interface/graph_scroll_container.gd" type="Script" id=3]
 [ext_resource path="res://user_interface/piano_scroll_container.gd" type="Script" id=4]
@@ -13,6 +13,7 @@
 [ext_resource path="res://user_interface/cursor_options.gd" type="Script" id=11]
 [ext_resource path="res://user_interface/open_file_dialog.gd" type="Script" id=12]
 [ext_resource path="res://user_interface/save_file_dialog.gd" type="Script" id=13]
+[ext_resource path="res://user_interface/welcome_dialog.gd" type="Script" id=14]
 
 [sub_resource type="SegmentShape2D" id=1]
 b = Vector2( 0, 0 )
@@ -44,24 +45,25 @@ hint_tooltip = "Load a wave audio file to be processed."
 focus_mode = 0
 text = "Load wave file"
 
-[node name="options_button" type="Button" parent="toolbar_separator/toolbar"]
+[node name="conversion_options_button" type="Button" parent="toolbar_separator/toolbar"]
 margin_left = 112.0
-margin_right = 175.0
+margin_right = 247.0
 margin_bottom = 20.0
-hint_tooltip = "Options regarding the image generation which also affect note recognition."
+hint_tooltip = "Options regarding the image generation and note recognition."
 focus_mode = 0
-text = "Options"
+text = "Conversion options"
 
 [node name="save_midi_file_button" type="Button" parent="toolbar_separator/toolbar"]
-margin_left = 185.0
-margin_right = 283.0
+margin_left = 257.0
+margin_right = 355.0
 margin_bottom = 20.0
+hint_tooltip = "Serialize the notes you see into a midi file."
 focus_mode = 0
 text = "Save midi file"
 
 [node name="source_option" type="OptionButton" parent="toolbar_separator/toolbar"]
-margin_left = 293.0
-margin_right = 444.0
+margin_left = 365.0
+margin_right = 516.0
 margin_bottom = 20.0
 hint_tooltip = "Which audio source should be played: wave or midi?"
 focus_mode = 0
@@ -73,8 +75,8 @@ __meta__ = {
 }
 
 [node name="cursor_options" type="Button" parent="toolbar_separator/toolbar"]
-margin_left = 454.0
-margin_right = 559.0
+margin_left = 526.0
+margin_right = 631.0
 margin_bottom = 20.0
 hint_tooltip = "Options regarding the playback cursor and screen position."
 focus_mode = 0
@@ -152,6 +154,22 @@ script = ExtResource( 8 )
 
 [node name="notes" type="Node2D" parent="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area"]
 script = ExtResource( 9 )
+
+[node name="welcome_dialog" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -231.0
+margin_top = -54.5
+margin_right = 231.0
+margin_bottom = 54.5
+window_title = "Welcome!"
+dialog_text = "A note about performance: we're currently single-threaded
+and opening a file may take up to a quarter of the song length.
+During that time it may seem like we crashed, but most probably not.
+It also may seem like you clicking Open didn't register, but it did."
+script = ExtResource( 14 )
 
 [node name="open_file_dialog" type="FileDialog" parent="."]
 anchor_left = 0.5
@@ -270,7 +288,7 @@ align = 1
 items = [ "Jump if playing off-screen", null, false, 0, null, "Don't follow playback", null, false, 1, null, "Cursor always left", null, false, 2, null, "Cursor always middle", null, false, 3, null ]
 selected = 0
 
-[node name="options_window" type="WindowDialog" parent="."]
+[node name="conversion_options_window" type="WindowDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -280,43 +298,43 @@ margin_top = -250.0
 margin_right = 300.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 600, 500 )
-window_title = "Options"
+window_title = "Conversion options"
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="center" type="CenterContainer" parent="options_window"]
+[node name="center" type="CenterContainer" parent="conversion_options_window"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="bottom_separator" type="VBoxContainer" parent="options_window/center"]
+[node name="bottom_separator" type="VBoxContainer" parent="conversion_options_window/center"]
 margin_left = 35.0
 margin_top = 49.0
 margin_right = 564.0
 margin_bottom = 451.0
 custom_constants/separation = 30
 
-[node name="options_body" type="HBoxContainer" parent="options_window/center/bottom_separator"]
+[node name="options_body" type="HBoxContainer" parent="conversion_options_window/center/bottom_separator"]
 margin_right = 529.0
 margin_bottom = 352.0
 custom_constants/separation = 40
 
-[node name="fft_part" type="VBoxContainer" parent="options_window/center/bottom_separator/options_body"]
+[node name="fft_part" type="VBoxContainer" parent="conversion_options_window/center/bottom_separator/options_body"]
 margin_right = 289.0
 margin_bottom = 352.0
 custom_constants/separation = 20
 
-[node name="fft_options_label" type="Label" parent="options_window/center/bottom_separator/options_body/fft_part"]
+[node name="fft_options_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/fft_part"]
 margin_right = 289.0
 margin_bottom = 14.0
 text = "FFT options"
 align = 1
 
-[node name="two_ffts_option" type="Button" parent="options_window/center/bottom_separator/options_body/fft_part"]
+[node name="two_ffts_option" type="Button" parent="conversion_options_window/center/bottom_separator/options_body/fft_part"]
 margin_left = 87.0
 margin_top = 34.0
 margin_right = 201.0
@@ -335,7 +353,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="grid_double" type="GridContainer" parent="options_window/center/bottom_separator/options_body/fft_part"]
+[node name="grid_double" type="GridContainer" parent="conversion_options_window/center/bottom_separator/options_body/fft_part"]
 margin_top = 74.0
 margin_right = 289.0
 margin_bottom = 220.0
@@ -343,14 +361,14 @@ custom_constants/vseparation = 20
 custom_constants/hseparation = 10
 columns = 3
 
-[node name="spacer" type="Control" parent="options_window/center/bottom_separator/options_body/fft_part/grid_double"]
+[node name="spacer" type="Control" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_double"]
 margin_right = 121.0
 margin_bottom = 14.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="low_label" type="Label" parent="options_window/center/bottom_separator/options_body/fft_part/grid_double"]
+[node name="low_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_double"]
 margin_left = 131.0
 margin_right = 205.0
 margin_bottom = 14.0
@@ -358,7 +376,7 @@ size_flags_horizontal = 3
 text = "Low"
 align = 1
 
-[node name="high_label" type="Label" parent="options_window/center/bottom_separator/options_body/fft_part/grid_double"]
+[node name="high_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_double"]
 margin_left = 215.0
 margin_right = 289.0
 margin_bottom = 14.0
@@ -366,7 +384,7 @@ size_flags_horizontal = 3
 text = "High"
 align = 1
 
-[node name="fft_size_label" type="Label" parent="options_window/center/bottom_separator/options_body/fft_part/grid_double"]
+[node name="fft_size_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_double"]
 margin_top = 39.0
 margin_right = 121.0
 margin_bottom = 53.0
@@ -374,7 +392,7 @@ size_flags_horizontal = 3
 text = "FFT size"
 align = 2
 
-[node name="fft_size_low_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/fft_part/grid_double"]
+[node name="fft_size_low_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_double"]
 margin_left = 131.0
 margin_top = 34.0
 margin_right = 205.0
@@ -391,7 +409,7 @@ value = 128.0
 exp_edit = true
 rounded = true
 
-[node name="fft_size_high_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/fft_part/grid_double"]
+[node name="fft_size_high_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_double"]
 margin_left = 215.0
 margin_top = 34.0
 margin_right = 289.0
@@ -408,7 +426,7 @@ value = 128.0
 exp_edit = true
 rounded = true
 
-[node name="low_high_exponent_label" type="Label" parent="options_window/center/bottom_separator/options_body/fft_part/grid_double"]
+[node name="low_high_exponent_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_double"]
 margin_top = 83.0
 margin_right = 121.0
 margin_bottom = 97.0
@@ -416,7 +434,7 @@ size_flags_horizontal = 3
 text = "Low-high exponent"
 align = 2
 
-[node name="low_high_exponent_low_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/fft_part/grid_double"]
+[node name="low_high_exponent_low_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_double"]
 margin_left = 131.0
 margin_top = 78.0
 margin_right = 205.0
@@ -428,7 +446,7 @@ size_flags_vertical = 3
 max_value = 1.5
 step = 0.0
 
-[node name="low_high_exponent_high_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/fft_part/grid_double"]
+[node name="low_high_exponent_high_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_double"]
 margin_left = 215.0
 margin_top = 78.0
 margin_right = 289.0
@@ -440,7 +458,7 @@ size_flags_vertical = 3
 max_value = 1.5
 step = 0.0
 
-[node name="overamplification_label" type="Label" parent="options_window/center/bottom_separator/options_body/fft_part/grid_double"]
+[node name="overamplification_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_double"]
 margin_top = 127.0
 margin_right = 121.0
 margin_bottom = 141.0
@@ -448,7 +466,7 @@ size_flags_horizontal = 3
 text = "Overamplification"
 align = 2
 
-[node name="overamplification_low_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/fft_part/grid_double"]
+[node name="overamplification_low_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_double"]
 margin_left = 131.0
 margin_top = 122.0
 margin_right = 205.0
@@ -461,7 +479,7 @@ max_value = 20.0
 step = 0.0
 value = 1.0
 
-[node name="overamplification_high_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/fft_part/grid_double"]
+[node name="overamplification_high_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_double"]
 margin_left = 215.0
 margin_top = 122.0
 margin_right = 289.0
@@ -474,7 +492,7 @@ max_value = 20.0
 step = 0.0
 value = 1.0
 
-[node name="grid_single" type="GridContainer" parent="options_window/center/bottom_separator/options_body/fft_part"]
+[node name="grid_single" type="GridContainer" parent="conversion_options_window/center/bottom_separator/options_body/fft_part"]
 margin_left = 66.0
 margin_top = 240.0
 margin_right = 223.0
@@ -484,14 +502,14 @@ custom_constants/vseparation = 20
 custom_constants/hseparation = 10
 columns = 2
 
-[node name="hop_size_label" type="Label" parent="options_window/center/bottom_separator/options_body/fft_part/grid_single"]
+[node name="hop_size_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_single"]
 margin_top = 5.0
 margin_right = 73.0
 margin_bottom = 19.0
 text = "Hop size"
 align = 2
 
-[node name="hop_size_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/fft_part/grid_single"]
+[node name="hop_size_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_single"]
 margin_left = 83.0
 margin_right = 157.0
 margin_bottom = 24.0
@@ -508,7 +526,7 @@ value = 32.0
 exp_edit = true
 rounded = true
 
-[node name="subdivision_label" type="Label" parent="options_window/center/bottom_separator/options_body/fft_part/grid_single"]
+[node name="subdivision_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_single"]
 margin_top = 49.0
 margin_right = 73.0
 margin_bottom = 63.0
@@ -516,7 +534,7 @@ size_flags_horizontal = 3
 text = "Subdivision"
 align = 2
 
-[node name="subdivision_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/fft_part/grid_single"]
+[node name="subdivision_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_single"]
 margin_left = 83.0
 margin_top = 44.0
 margin_right = 157.0
@@ -530,7 +548,7 @@ max_value = 255.0
 value = 1.0
 rounded = true
 
-[node name="tuning_label" type="Label" parent="options_window/center/bottom_separator/options_body/fft_part/grid_single"]
+[node name="tuning_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_single"]
 margin_top = 93.0
 margin_right = 73.0
 margin_bottom = 107.0
@@ -538,7 +556,7 @@ size_flags_horizontal = 3
 text = "Tuning"
 align = 2
 
-[node name="tuning_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/fft_part/grid_single"]
+[node name="tuning_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/fft_part/grid_single"]
 margin_left = 83.0
 margin_top = 88.0
 margin_right = 157.0
@@ -555,19 +573,19 @@ value = 400.0
 allow_greater = true
 allow_lesser = true
 
-[node name="recognition_part" type="VBoxContainer" parent="options_window/center/bottom_separator/options_body"]
+[node name="recognition_part" type="VBoxContainer" parent="conversion_options_window/center/bottom_separator/options_body"]
 margin_left = 329.0
 margin_right = 529.0
 margin_bottom = 352.0
 custom_constants/separation = 20
 
-[node name="recognition_options_label" type="Label" parent="options_window/center/bottom_separator/options_body/recognition_part"]
+[node name="recognition_options_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part"]
 margin_right = 200.0
 margin_bottom = 14.0
 text = "Note recognition options"
 align = 1
 
-[node name="grid" type="GridContainer" parent="options_window/center/bottom_separator/options_body/recognition_part"]
+[node name="grid" type="GridContainer" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part"]
 margin_top = 34.0
 margin_right = 200.0
 margin_bottom = 278.0
@@ -576,14 +594,14 @@ custom_constants/vseparation = 20
 custom_constants/hseparation = 10
 columns = 2
 
-[node name="note_on_threshold_label" type="Label" parent="options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="note_on_threshold_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_top = 5.0
 margin_right = 116.0
 margin_bottom = 19.0
 text = "Note on threshold"
 align = 2
 
-[node name="note_on_threshold_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="note_on_threshold_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_left = 126.0
 margin_right = 200.0
 margin_bottom = 24.0
@@ -594,7 +612,7 @@ If this is small, there will be more notes recognized."
 max_value = 1.0
 step = 0.0
 
-[node name="note_off_threshold_label" type="Label" parent="options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="note_off_threshold_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_top = 49.0
 margin_right = 116.0
 margin_bottom = 63.0
@@ -602,7 +620,7 @@ size_flags_horizontal = 3
 text = "Note off threshold"
 align = 2
 
-[node name="note_off_threshold_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="note_off_threshold_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_left = 126.0
 margin_top = 44.0
 margin_right = 200.0
@@ -617,7 +635,7 @@ not exceeding minimum length will be deleted."
 max_value = 1.0
 step = 0.0
 
-[node name="octave_removal_label" type="Label" parent="options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="octave_removal_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_top = 93.0
 margin_right = 116.0
 margin_bottom = 107.0
@@ -625,7 +643,7 @@ size_flags_horizontal = 3
 text = "Octave removal"
 align = 2
 
-[node name="octave_removal_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="octave_removal_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_left = 126.0
 margin_top = 88.0
 margin_right = 200.0
@@ -638,7 +656,7 @@ of them. Make this smaller if you need the notes the system gets rid off."
 max_value = 1.0
 step = 0.0
 
-[node name="minimum_length_label" type="Label" parent="options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="minimum_length_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_top = 137.0
 margin_right = 116.0
 margin_bottom = 151.0
@@ -646,7 +664,7 @@ size_flags_horizontal = 3
 text = "Minimum length"
 align = 2
 
-[node name="minimum_length_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="minimum_length_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_left = 126.0
 margin_top = 132.0
 margin_right = 200.0
@@ -658,7 +676,7 @@ have too many short notes, and want them gone."
 max_value = 50.0
 rounded = true
 
-[node name="volume_multiplier_label" type="Label" parent="options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="volume_multiplier_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_top = 181.0
 margin_right = 116.0
 margin_bottom = 195.0
@@ -666,7 +684,7 @@ size_flags_horizontal = 3
 text = "Volume multiplier"
 align = 2
 
-[node name="volume_multiplier_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="volume_multiplier_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_left = 126.0
 margin_top = 176.0
 margin_right = 200.0
@@ -681,7 +699,7 @@ max_value = 20.0
 step = 0.0
 value = 1.0
 
-[node name="negative_delay_label" type="Label" parent="options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="negative_delay_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_top = 225.0
 margin_right = 116.0
 margin_bottom = 239.0
@@ -689,7 +707,7 @@ size_flags_horizontal = 3
 text = "Negative delay"
 align = 2
 
-[node name="negative_delay_option" type="SpinBox" parent="options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="negative_delay_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_left = 126.0
 margin_top = 220.0
 margin_right = 200.0
@@ -703,7 +721,7 @@ max_value = 20.0
 rounded = true
 allow_lesser = true
 
-[node name="recalculate_separator" type="HBoxContainer" parent="options_window/center/bottom_separator"]
+[node name="recalculate_separator" type="HBoxContainer" parent="conversion_options_window/center/bottom_separator"]
 margin_left = 33.0
 margin_top = 382.0
 margin_right = 495.0
@@ -711,14 +729,14 @@ margin_bottom = 402.0
 size_flags_horizontal = 4
 custom_constants/separation = 20
 
-[node name="recalculate_fft" type="Button" parent="options_window/center/bottom_separator/recalculate_separator"]
+[node name="recalculate_fft" type="Button" parent="conversion_options_window/center/bottom_separator/recalculate_separator"]
 margin_right = 110.0
 margin_bottom = 20.0
 hint_tooltip = "Press this to recalculate the image, but not the notes."
 focus_mode = 0
 text = "Recalculate FFT"
 
-[node name="recalculate_notes" type="Button" parent="options_window/center/bottom_separator/recalculate_separator"]
+[node name="recalculate_notes" type="Button" parent="conversion_options_window/center/bottom_separator/recalculate_separator"]
 margin_left = 130.0
 margin_right = 324.0
 margin_bottom = 20.0
@@ -726,7 +744,7 @@ hint_tooltip = "Press this to recalculate the notes, but not the image."
 focus_mode = 0
 text = "Recalculate note recognition"
 
-[node name="recalculate_both" type="Button" parent="options_window/center/bottom_separator/recalculate_separator"]
+[node name="recalculate_both" type="Button" parent="conversion_options_window/center/bottom_separator/recalculate_separator"]
 margin_left = 344.0
 margin_right = 462.0
 margin_bottom = 20.0
@@ -735,18 +753,19 @@ focus_mode = 0
 text = "Recalculate both"
 
 [connection signal="pressed" from="toolbar_separator/toolbar/load_file" to="toolbar_separator/toolbar" method="_on_load_file_pressed"]
-[connection signal="pressed" from="toolbar_separator/toolbar/options_button" to="toolbar_separator/toolbar" method="_on_options_button_pressed"]
+[connection signal="pressed" from="toolbar_separator/toolbar/conversion_options_button" to="toolbar_separator/toolbar" method="_on_conversion_options_button_pressed"]
 [connection signal="pressed" from="toolbar_separator/toolbar/save_midi_file_button" to="toolbar_separator/toolbar" method="_on_save_midi_file_button_pressed"]
 [connection signal="item_selected" from="toolbar_separator/toolbar/source_option" to="toolbar_separator/toolbar" method="_on_source_option_item_selected"]
 [connection signal="pressed" from="toolbar_separator/toolbar/cursor_options" to="toolbar_separator/toolbar" method="_on_cursor_options_pressed"]
 [connection signal="area_entered" from="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area" to="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor" method="_on_area_area_entered"]
 [connection signal="area_exited" from="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area" to="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor" method="_on_area_area_exited"]
 [connection signal="gui_input" from="toolbar_separator/working_area/graph_scroll_container/graph_spacer" to="toolbar_separator/working_area/graph_scroll_container/graph_spacer/graph_area/notes" method="_on_graph_spacer_gui_input"]
+[connection signal="confirmed" from="welcome_dialog" to="welcome_dialog" method="_on_welcome_dialog_confirmed"]
 [connection signal="file_selected" from="open_file_dialog" to="open_file_dialog" method="_on_open_file_dialog_file_selected"]
 [connection signal="file_selected" from="save_file_dialog" to="save_file_dialog" method="_on_save_file_dialog_file_selected"]
 [connection signal="toggled" from="cursor_options/center/grid/playback_option" to="cursor_options" method="_on_playback_option_toggled"]
 [connection signal="item_selected" from="cursor_options/center/grid/follow_option" to="cursor_options" method="_on_follow_option_item_selected"]
-[connection signal="toggled" from="options_window/center/bottom_separator/options_body/fft_part/two_ffts_option" to="options_window" method="_on_two_ffts_option_toggled"]
-[connection signal="pressed" from="options_window/center/bottom_separator/recalculate_separator/recalculate_fft" to="options_window" method="_on_recalculate_fft_pressed"]
-[connection signal="pressed" from="options_window/center/bottom_separator/recalculate_separator/recalculate_notes" to="options_window" method="_on_recalculate_notes_pressed"]
-[connection signal="pressed" from="options_window/center/bottom_separator/recalculate_separator/recalculate_both" to="options_window" method="_on_recalculate_both_pressed"]
+[connection signal="toggled" from="conversion_options_window/center/bottom_separator/options_body/fft_part/two_ffts_option" to="conversion_options_window" method="_on_two_ffts_option_toggled"]
+[connection signal="pressed" from="conversion_options_window/center/bottom_separator/recalculate_separator/recalculate_fft" to="conversion_options_window" method="_on_recalculate_fft_pressed"]
+[connection signal="pressed" from="conversion_options_window/center/bottom_separator/recalculate_separator/recalculate_notes" to="conversion_options_window" method="_on_recalculate_notes_pressed"]
+[connection signal="pressed" from="conversion_options_window/center/bottom_separator/recalculate_separator/recalculate_both" to="conversion_options_window" method="_on_recalculate_both_pressed"]
