@@ -61,6 +61,3 @@ func save_midi(notes: PoolVector3Array, save_path):
 	file.open(save_path, File.WRITE)
 	file.store_buffer(bytes)
 	file.close()
-
-func time_comparison(a, b):
-	return a[0] < b[0]

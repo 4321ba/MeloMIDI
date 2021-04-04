@@ -1,6 +1,8 @@
 extends Control
 #this script is responsible for drawing the piano on the left
 
+var note_playing: int
+
 func _draw():
 	if rect_size.y == 0:
 		return
@@ -20,3 +22,12 @@ func _draw():
 			draw_line(begin, end, Color.black)
 		if note % 12 == 0 and one_key_height > 8:
 			draw_string(font, end * Vector2(0.25, 1) + offset + Vector2(0, 5), "C" + str(note / 12 - 1), Color.black)
+
+func _gui_input(event):
+	if (event is InputEventMouseButton and
+		event.button_index == BUTTON_LEFT):
+		if event.pressed:
+			note_playing = 127 - int(128 * event.position.y / rect_size.y)
+			midi_player.play_note(note_playing, 127)
+		else:
+			midi_player.play_note(note_playing, 0)

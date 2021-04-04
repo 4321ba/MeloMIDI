@@ -2,7 +2,6 @@
 //includes from godot-cpp
 #include <Godot.hpp>
 #include <Reference.hpp>
-#include <String.hpp>
 #include <Image.hpp>
 //include from libnyquist
 #include <Decoders.h>
@@ -236,6 +235,7 @@ public:
                 }
             }
             //I'm not 100% sure this is good, there's Ref<Image> or something like that but idk
+            //I'm happy that it works
             Image* image = Image::_new();
             image->create_from_data(width, height, false, image->FORMAT_RGBA8, image_data);
             //we want low pitch to be down and high pitch to be up
@@ -331,6 +331,7 @@ public:
         std::cout << notes.size() / 4 << " notes guessed" << std::endl;
         return notes;
     }
+    
     
     
     static void _register_methods() {

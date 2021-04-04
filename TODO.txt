@@ -1,6 +1,5 @@
 important:
 -popup window that warns user about the crappy performance
--play note on piano with left click
 -shortcut for changing playback type
 -remove negative delay option, add drum compensation option (make it configurable)
 -improve conversion somehow, or more options
