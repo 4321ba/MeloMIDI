@@ -19,7 +19,7 @@ onready var note_off_threshold_option: SpinBox = $center/bottom_separator/option
 onready var octave_removal_option: SpinBox = $center/bottom_separator/options_body/recognition_part/grid/octave_removal_option
 onready var minimum_length_option: SpinBox = $center/bottom_separator/options_body/recognition_part/grid/minimum_length_option
 onready var volume_multiplier_option: SpinBox = $center/bottom_separator/options_body/recognition_part/grid/volume_multiplier_option
-onready var negative_delay_option: SpinBox = $center/bottom_separator/options_body/recognition_part/grid/negative_delay_option
+onready var percussion_removal_option: SpinBox = $center/bottom_separator/options_body/recognition_part/grid/percussion_removal_option
 
 func _ready():
 	#we want to display the default values from the spectrum_analyzer singleton
@@ -40,7 +40,7 @@ func _ready():
 	octave_removal_option.value = spectrum_analyzer.octave_removal_multiplier
 	minimum_length_option.value = spectrum_analyzer.minimum_length
 	volume_multiplier_option.value = spectrum_analyzer.volume_multiplier
-	negative_delay_option.value = spectrum_analyzer.note_recognition_negative_delay
+	percussion_removal_option.value = spectrum_analyzer.percussion_removal
 
 func _unhandled_key_input(event):
 	if visible and event.is_action_pressed("ui_cancel"):
@@ -64,7 +64,7 @@ func read_in_data():
 	spectrum_analyzer.octave_removal_multiplier = octave_removal_option.value
 	spectrum_analyzer.minimum_length = minimum_length_option.value
 	spectrum_analyzer.volume_multiplier = volume_multiplier_option.value
-	spectrum_analyzer.note_recognition_negative_delay = negative_delay_option.value
+	spectrum_analyzer.percussion_removal = percussion_removal_option.value
 
 func _on_two_ffts_option_toggled(button_pressed):
 	fft_size_high_option.editable = button_pressed

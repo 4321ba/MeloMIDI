@@ -18,7 +18,7 @@ var note_off_threshold: float = 0.05
 var octave_removal_multiplier: float = 0.2
 var minimum_length: int = 4
 var volume_multiplier: float = 4
-var note_recognition_negative_delay: int = 0
+var percussion_removal: float = 1
 
 var sample_rate: int
 var texture_size: Vector2
@@ -48,4 +48,4 @@ func analyze_spectrum() -> Array:
 	return spectrum_sprites
 
 func get_guessed_notes() -> PoolIntArray:
-	return native_library.guess_notes(note_on_threshold, note_off_threshold, octave_removal_multiplier, minimum_length, volume_multiplier, note_recognition_negative_delay)
+	return native_library.guess_notes(note_on_threshold, note_off_threshold, octave_removal_multiplier, minimum_length, volume_multiplier, percussion_removal)

@@ -1,8 +1,10 @@
 important:
--shortcut for changing playback type
--remove negative delay option, add drum compensation option (make it configurable)
+-2 errors from GMP
+-general cleanup + rework cursor options button and popup, and options.gd + store convoptions just before converting
+-fix buttons that cause instant crash (e.g. recalculate with no image)
 -hide notes option
--general cleanup + rework cursor options button and popup, and options.gd
+-shortcut for changing playback type
+-help button, popup: version, control (+shortcuts) list
 -compile for windows
 
 less important:

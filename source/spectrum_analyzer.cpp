@@ -247,7 +247,7 @@ public:
     }
     
     
-    PoolIntArray guess_notes(float note_on_threshold, float note_off_threshold, float octave_removal_multiplier, int minimum_length, float volume_multiplier, int note_recognition_negative_delay) {
+    PoolIntArray guess_notes(float note_on_threshold, float note_off_threshold, float octave_removal_multiplier, int minimum_length, float volume_multiplier, float percussion_removal) {
         
         std::cout << "Guessing notes..." << std::endl;
         int subdivision = magnitudes[0].size() / 128;
@@ -270,14 +270,14 @@ public:
                         //the purpose of this is to kinda exclude if there's a real note here, otherwise the goal of this whole thing is
                         //to exclude drums and other "noise" that spreads across multiple notes, so if we subtract the magnitudes from
                         //one note above and from one note below, from the current one, we get a rough idea if there's actually a note here
-                        magnitude += current_magnitudes[(note - 1) * subdivision + i] * (-abs(i * 2.0 / (subdivision - 1) - 1));
+                        magnitude += current_magnitudes[(note - 1) * subdivision + i] * (-abs(i * 2.0 / (subdivision - 1) - 1)) * percussion_removal;
                     }
                 }
                 if (note < 127) {
                     for (int i = 0; i < subdivision; i++) {
                         //same thing but for one note higher
                         //notice that lower magnitudes and higher magnitudes < 0 so we add them, but they only compensate negatively
-                        magnitude += current_magnitudes[(note + 1) * subdivision + i] * (-abs(i * 2.0 / (subdivision - 1) - 1));
+                        magnitude += current_magnitudes[(note + 1) * subdivision + i] * (-abs(i * 2.0 / (subdivision - 1) - 1)) * percussion_removal;
                     }
                 }
                 these_strengths.push_back(magnitude > 0 ? magnitude / subdivision : 0);
@@ -302,7 +302,7 @@ public:
                     is_note_playing = true;
                     //if there's a note then it probably started a bit before, it just didn't reach the note_on_threshold
                     //so we try to compensate that here
-                    note_begin_tick = tick - note_recognition_negative_delay;
+                    note_begin_tick = tick;
                     if (note_begin_tick < 0) { note_begin_tick = 0; }
                 }
                 if (is_note_playing and magnitude > peak_magnitude) { peak_magnitude = magnitude; }

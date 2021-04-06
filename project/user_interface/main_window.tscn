@@ -312,14 +312,14 @@ __meta__ = {
 }
 
 [node name="bottom_separator" type="VBoxContainer" parent="conversion_options_window/center"]
-margin_left = 35.0
+margin_left = 30.0
 margin_top = 49.0
-margin_right = 564.0
+margin_right = 569.0
 margin_bottom = 451.0
 custom_constants/separation = 30
 
 [node name="options_body" type="HBoxContainer" parent="conversion_options_window/center/bottom_separator"]
-margin_right = 529.0
+margin_right = 539.0
 margin_bottom = 352.0
 custom_constants/separation = 40
 
@@ -575,19 +575,19 @@ allow_lesser = true
 
 [node name="recognition_part" type="VBoxContainer" parent="conversion_options_window/center/bottom_separator/options_body"]
 margin_left = 329.0
-margin_right = 529.0
+margin_right = 539.0
 margin_bottom = 352.0
 custom_constants/separation = 20
 
 [node name="recognition_options_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part"]
-margin_right = 200.0
+margin_right = 210.0
 margin_bottom = 14.0
 text = "Note recognition options"
 align = 1
 
 [node name="grid" type="GridContainer" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part"]
 margin_top = 34.0
-margin_right = 200.0
+margin_right = 210.0
 margin_bottom = 278.0
 size_flags_horizontal = 4
 custom_constants/vseparation = 20
@@ -596,14 +596,14 @@ columns = 2
 
 [node name="note_on_threshold_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_top = 5.0
-margin_right = 116.0
+margin_right = 126.0
 margin_bottom = 19.0
 text = "Note on threshold"
 align = 2
 
 [node name="note_on_threshold_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
-margin_left = 126.0
-margin_right = 200.0
+margin_left = 136.0
+margin_right = 210.0
 margin_bottom = 24.0
 hint_tooltip = "The magnitude required to trigger a note on, between 0 and 1.
 This determines how sensitive the recognition is.
@@ -614,16 +614,16 @@ step = 0.0
 
 [node name="note_off_threshold_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_top = 49.0
-margin_right = 116.0
+margin_right = 126.0
 margin_bottom = 63.0
 size_flags_horizontal = 3
 text = "Note off threshold"
 align = 2
 
 [node name="note_off_threshold_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
-margin_left = 126.0
+margin_left = 136.0
 margin_top = 44.0
-margin_right = 200.0
+margin_right = 210.0
 margin_bottom = 68.0
 hint_tooltip = "If the magnitude of the given note falls below this value,
 it will trigger a note off. The next note on will be then
@@ -637,16 +637,16 @@ step = 0.0
 
 [node name="octave_removal_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_top = 93.0
-margin_right = 116.0
+margin_right = 126.0
 margin_bottom = 107.0
 size_flags_horizontal = 3
 text = "Octave removal"
 align = 2
 
 [node name="octave_removal_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
-margin_left = 126.0
+margin_left = 136.0
 margin_top = 88.0
-margin_right = 200.0
+margin_right = 210.0
 margin_bottom = 112.0
 hint_tooltip = "The magnitude of the note one octave below will be multiplied
 by this and then subtracted from this note's magnitude
@@ -658,16 +658,16 @@ step = 0.0
 
 [node name="minimum_length_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_top = 137.0
-margin_right = 116.0
+margin_right = 126.0
 margin_bottom = 151.0
 size_flags_horizontal = 3
 text = "Minimum length"
 align = 2
 
 [node name="minimum_length_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
-margin_left = 126.0
+margin_left = 136.0
 margin_top = 132.0
-margin_right = 200.0
+margin_right = 210.0
 margin_bottom = 156.0
 hint_tooltip = "Notes not reaching this value will automatically be removed.
 This tries to complement many, short notes that are recognized.
@@ -678,16 +678,16 @@ rounded = true
 
 [node name="volume_multiplier_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_top = 181.0
-margin_right = 116.0
+margin_right = 126.0
 margin_bottom = 195.0
 size_flags_horizontal = 3
 text = "Volume multiplier"
 align = 2
 
 [node name="volume_multiplier_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
-margin_left = 126.0
+margin_left = 136.0
 margin_top = 176.0
-margin_right = 200.0
+margin_right = 210.0
 margin_bottom = 200.0
 hint_tooltip = "The velocity / volume of the midi notes are multiplied by this,
 then clamped at 127, the maximum. The difference between
@@ -699,32 +699,40 @@ max_value = 20.0
 step = 0.0
 value = 1.0
 
-[node name="negative_delay_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
+[node name="percussion_removal_label" type="Label" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
 margin_top = 225.0
-margin_right = 116.0
+margin_right = 126.0
 margin_bottom = 239.0
 size_flags_horizontal = 3
-text = "Negative delay"
+text = "Percussion removal"
 align = 2
 
-[node name="negative_delay_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
-margin_left = 126.0
+[node name="percussion_removal_option" type="SpinBox" parent="conversion_options_window/center/bottom_separator/options_body/recognition_part/grid"]
+margin_left = 136.0
 margin_top = 220.0
-margin_right = 200.0
+margin_right = 210.0
 margin_bottom = 244.0
-hint_tooltip = "Note on events usually trigger a bit late, because the note
-began sounding before the note on threshold recognized it,
-this tries to compensate that by subtracting this from when the
-note on threshold triggered. The length in seconds of this
-is dependent on the hop size and the sample rate of the file too. "
-max_value = 20.0
-rounded = true
-allow_lesser = true
+hint_tooltip = "We don't want the sound of drums to be converted into a
+melodic instrument, so we try compensating that by
+subtracting the one semitone higher and one semitone
+lower notes from the current one (it's a bit more complex
+then that). If it evenly spreads across multiple notes at a
+given time, there won't be any notes recognized.
+This value controls the value that is subtracted, so with
+a value of 1, it is fully compensated, and with a value of
+0 no compensation is calculated.
+This may help getting the real pitch of deep notes too.
+However, 2 notes, that are 1 semitone apart, next to
+each other could be misunderstood as percussion.
+Try lowering this if you don't have any percussion in
+your music."
+max_value = 2.0
+step = 0.0
 
 [node name="recalculate_separator" type="HBoxContainer" parent="conversion_options_window/center/bottom_separator"]
-margin_left = 33.0
+margin_left = 38.0
 margin_top = 382.0
-margin_right = 495.0
+margin_right = 500.0
 margin_bottom = 402.0
 size_flags_horizontal = 4
 custom_constants/separation = 20
