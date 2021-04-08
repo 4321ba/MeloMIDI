@@ -2,6 +2,7 @@ important:
 -2 errors from GMP
 -make making easier with cmake
 -compile for windows
+-icon
 
 less important:
 -zooming with scrollbar on side scrollcontainers with wheel
@@ -15,7 +16,7 @@ less important:
 -quantization or how adding horizontal alignment/snap is called
 -auto quantization recognition
 -percussion editor and maybe recognition
--integrate a theme, or at least a better font
+-integrate a theme maybe
 -option to turn off ui upscaling?
 -create our own file format, save path to file, notes and options
 -user defined sf2 soundfont, maybe

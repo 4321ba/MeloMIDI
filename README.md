@@ -36,7 +36,7 @@ I have yet to figure this out.
 ### Windows
 Try doing something similar to Linux. Also put the path of the `.dll` file into `project/bin/spectrum_analyzer.gdnlib`, it can be added with a GUI in Godot.  
 ### Mac
-If someone is interested in a Mac port, I'd gladly help, but I can't test it. Compiling spectrum_analyzer.cpp is the bottleneck in supporting it.  
+If someone is interested in a Mac port, I'd gladly help, but I can't test it. Compiling `spectrum_analyzer.cpp` is the bottleneck in supporting it.  
 ## Used software
 * [godot](https://github.com/godotengine/godot) game engine 3.3+ for everything  
 * [godot-midi-player](https://bitbucket.org/arlez80/godot-midi-player/src/master/) for playing and saving MIDI in GDScript  

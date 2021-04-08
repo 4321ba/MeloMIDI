@@ -109,4 +109,4 @@ common/enable_pause_aware_picking=true
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
-environment/default_environment="res://default_env.tres"
+environment/default_clear_color=Color( 0.172549, 0.164706, 0.196078, 1 )
