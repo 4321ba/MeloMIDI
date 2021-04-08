@@ -36,35 +36,47 @@ __meta__ = {
 [node name="toolbar" type="HBoxContainer" parent="toolbar_separator"]
 margin_right = 1280.0
 margin_bottom = 20.0
-custom_constants/separation = 10
+custom_constants/separation = 20
 script = ExtResource( 7 )
 
+[node name="spacer_left" type="Control" parent="toolbar_separator/toolbar"]
+margin_right = 60.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
 [node name="open_wave_file_button" type="Button" parent="toolbar_separator/toolbar"]
-margin_right = 107.0
+margin_left = 80.0
+margin_right = 187.0
 margin_bottom = 20.0
 hint_tooltip = "Load a wave audio file to be processed."
 focus_mode = 0
 text = "Open wave file"
 
 [node name="save_midi_file_button" type="Button" parent="toolbar_separator/toolbar"]
-margin_left = 117.0
-margin_right = 215.0
+margin_left = 207.0
+margin_right = 305.0
 margin_bottom = 20.0
 hint_tooltip = "Serialize the notes you see into a midi file."
 focus_mode = 0
 text = "Save midi file"
 
+[node name="spacer_midleft" type="Control" parent="toolbar_separator/toolbar"]
+margin_left = 325.0
+margin_right = 385.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
 [node name="conversion_options_button" type="Button" parent="toolbar_separator/toolbar"]
-margin_left = 225.0
-margin_right = 360.0
+margin_left = 405.0
+margin_right = 540.0
 margin_bottom = 20.0
 hint_tooltip = "Options regarding the image generation and note recognition."
 focus_mode = 0
 text = "Conversion options"
 
 [node name="general_options_button" type="Button" parent="toolbar_separator/toolbar"]
-margin_left = 370.0
-margin_right = 484.0
+margin_left = 560.0
+margin_right = 674.0
 margin_bottom = 20.0
 hint_tooltip = "Options regarding the playback cursor and screen position."
 focus_mode = 0
@@ -73,22 +85,48 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="source_option_combobox" type="OptionButton" parent="toolbar_separator/toolbar"]
-margin_left = 494.0
-margin_right = 645.0
+[node name="spacer_middle" type="Control" parent="toolbar_separator/toolbar"]
+margin_left = 694.0
+margin_right = 755.0
 margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="source_option_combobox" type="OptionButton" parent="toolbar_separator/toolbar"]
+margin_left = 775.0
+margin_right = 955.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 180, 0 )
 hint_tooltip = "Which audio source should be played: wave or midi?"
 focus_mode = 0
-text = "Play midi and wave"
-items = [ "Play midi and wave", null, false, 0, null, "Play midi only", null, false, 1, null, "Play wave only", null, false, 2, null, "Midi left, wave right", null, false, 3, null, "Midi right, wave left", null, false, 4, null ]
+text = "Play midi and wave [1]"
+align = 1
+items = [ "Play midi and wave [1]", null, false, 0, null, "Play midi only [2]", null, false, 1, null, "Play wave only [3]", null, false, 2, null, "Midi left, wave right [4]", null, false, 3, null, "Midi right, wave left [5]", null, false, 4, null ]
 selected = 0
 __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="hide_notes_button" type="Button" parent="toolbar_separator/toolbar"]
+margin_left = 975.0
+margin_right = 1057.0
+margin_bottom = 20.0
+hint_tooltip = "Make the horizontal blue lines temporarily invisible."
+focus_mode = 0
+toggle_mode = true
+text = "Hide notes"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="spacer_midright" type="Control" parent="toolbar_separator/toolbar"]
+margin_left = 1077.0
+margin_right = 1137.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
 [node name="help_button" type="Button" parent="toolbar_separator/toolbar"]
-margin_left = 655.0
-margin_right = 697.0
+margin_left = 1157.0
+margin_right = 1199.0
 margin_bottom = 20.0
 hint_tooltip = "Show shortcuts and version info."
 focus_mode = 0
@@ -96,6 +134,12 @@ text = "Help"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="spacer_right" type="Control" parent="toolbar_separator/toolbar"]
+margin_left = 1219.0
+margin_right = 1280.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
 
 [node name="working_area" type="GridContainer" parent="toolbar_separator"]
 margin_top = 24.0
@@ -280,7 +324,6 @@ and one for higher notes. We then interpolate between them,
 using mostly the low FFT's data for lower notes, and the high
 FFT's data for higher notes. This tries to complement the
 limitation of FFTs described in FFT size."
-focus_mode = 0
 size_flags_horizontal = 4
 toggle_mode = true
 pressed = true
@@ -677,7 +720,6 @@ custom_constants/separation = 20
 margin_right = 110.0
 margin_bottom = 20.0
 hint_tooltip = "Press this to recalculate the image, but not the notes."
-focus_mode = 0
 text = "Recalculate FFT"
 
 [node name="recalculate_notes" type="Button" parent="conversion_options_dialog/center/bottom_separator/recalculate_separator"]
@@ -685,7 +727,6 @@ margin_left = 130.0
 margin_right = 324.0
 margin_bottom = 20.0
 hint_tooltip = "Press this to recalculate the notes, but not the image."
-focus_mode = 0
 text = "Recalculate note recognition"
 
 [node name="recalculate_both" type="Button" parent="conversion_options_dialog/center/bottom_separator/recalculate_separator"]
@@ -693,7 +734,6 @@ margin_left = 344.0
 margin_right = 462.0
 margin_bottom = 20.0
 hint_tooltip = "Press this to recalculate everything."
-focus_mode = 0
 text = "Recalculate both"
 
 [node name="general_options_dialog" type="WindowDialog" parent="."]
@@ -719,7 +759,7 @@ __meta__ = {
 [node name="grid" type="GridContainer" parent="general_options_dialog/center"]
 margin_left = 45.0
 margin_top = 45.0
-margin_right = 454.0
+margin_right = 455.0
 margin_bottom = 105.0
 custom_constants/vseparation = 20
 custom_constants/hseparation = 10
@@ -741,13 +781,13 @@ __meta__ = {
 
 [node name="playback_option" type="Button" parent="general_options_dialog/center/grid"]
 margin_left = 210.0
-margin_right = 409.0
+margin_right = 410.0
 margin_bottom = 20.0
-hint_tooltip = "The triangle is where playback restarts after a pause."
+hint_tooltip = "This option makes the triangle follow playback.
+The triangle is where playback restarts after a pause."
 focus_mode = 0
-size_flags_horizontal = 3
 toggle_mode = true
-text = "Make triangle follow playback"
+text = "Continue playback"
 
 [node name="follow_label" type="Label" parent="general_options_dialog/center/grid"]
 margin_top = 43.0
@@ -763,8 +803,9 @@ __meta__ = {
 [node name="follow_option" type="OptionButton" parent="general_options_dialog/center/grid"]
 margin_left = 210.0
 margin_top = 40.0
-margin_right = 409.0
+margin_right = 410.0
 margin_bottom = 60.0
+rect_min_size = Vector2( 200, 0 )
 hint_tooltip = "How the screen follows the playback line."
 focus_mode = 0
 text = "Jump if playing off-screen"
@@ -782,19 +823,22 @@ margin_top = -54.5
 margin_right = 231.0
 margin_bottom = 54.5
 window_title = "Help"
-dialog_text = "Navigation:
+dialog_text = "Navigation controls:
 You can scroll up/down and left/right using (Shift + ) Mouse Wheel Up/Down, like you're probably used to in every other program.
 You can use Ctrl + Mouse Wheel Up/Down to zoom in and out.
 You can also use Ctrl + Shift + Mouse Wheel Up/Down to zoom only vertically.
 You can zoom out vertically and zoom back in normally to zoom only horizontally.
 You can play the piano with Left Click, and reposition the starting position triangle in the timeline with Left Click.
 
-Note editing:
+Note editing controls:
 You add notes with Left Clicking in the main area, and dragging it left/right to make it longer.
 You can remove a note with Right Clicking on it.
 You can resize a note with (Left Click) dragging its left or right side.
 You can change a note's volume (velocity) with (Left Click) dragging the middle of the note up or down.
 Resizing and velocity change are also indicated with the mouse cursor change, and the notes' transparency reflect their volume.
+
+Shortcuts:
+Use the numbers 1-5 to change what should be played back (wave, midi, or both, and with or without panning), see the toolbar for possible options.
 
 Made by 1234ab.
 Version: "
@@ -805,6 +849,7 @@ script = ExtResource( 15 )
 [connection signal="pressed" from="toolbar_separator/toolbar/conversion_options_button" to="toolbar_separator/toolbar" method="_on_conversion_options_button_pressed"]
 [connection signal="pressed" from="toolbar_separator/toolbar/general_options_button" to="toolbar_separator/toolbar" method="_on_general_options_button_pressed"]
 [connection signal="item_selected" from="toolbar_separator/toolbar/source_option_combobox" to="toolbar_separator/toolbar" method="_on_source_option_item_selected"]
+[connection signal="toggled" from="toolbar_separator/toolbar/hide_notes_button" to="toolbar_separator/toolbar" method="_on_hide_notes_button_toggled"]
 [connection signal="pressed" from="toolbar_separator/toolbar/help_button" to="toolbar_separator/toolbar" method="_on_help_button_pressed"]
 [connection signal="area_entered" from="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area" to="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor" method="_on_area_area_entered"]
 [connection signal="area_exited" from="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor/area" to="toolbar_separator/working_area/timeline_scroll_container/timeline_bar/playback_cursor" method="_on_area_area_exited"]

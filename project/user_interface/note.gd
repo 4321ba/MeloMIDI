@@ -1,7 +1,7 @@
 extends Line2D
 class_name Note
 
-var subdivision = spectrum_analyzer.subdivision
+var subdivision = options.options.fft.subdivision
 var velocity: int = 127 setget set_velocity
 var note: int setget set_note
 var begin: float setget set_begin

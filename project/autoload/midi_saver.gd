@@ -7,7 +7,7 @@ func save_midi(notes: PoolVector3Array, save_path):
 	#and have the structure Vector3(time, pitch/note, volume/velocity)
 	#where for note off events' volume is 0
 	
-	var pixel_per_second: float = spectrum_analyzer.sample_rate / spectrum_analyzer.hop_size
+	var pixel_per_second: float = spectrum_analyzer.sample_rate / options.options.fft.hop_size
 	var smf_data: Dictionary = {
 		"format_type": 1,
 		"track_count": 1,

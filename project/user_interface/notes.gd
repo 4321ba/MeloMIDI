@@ -11,7 +11,7 @@ func _on_graph_spacer_gui_input(event: InputEvent):
 		if event.pressed:
 			var note_position = event.position / graph_area.scale
 			var note: Note = NOTE_SCENE.instance()
-			note.note = 127 - int(note_position.y) / spectrum_analyzer.subdivision
+			note.note = 128 - int(note_position.y + 1) / options.options.fft.subdivision
 			note.begin = note_position.x
 			note.fix_point_for_resize(false, event.global_position.x)
 			note_being_added = note
@@ -26,6 +26,7 @@ func remove_notes():
 		note.queue_free()
 
 func add_notes(notes: PoolIntArray):
+	#these come from spectrum_analyzer.cpp
 	for i in notes.size() / 4:
 		var note: Note = NOTE_SCENE.instance()
 		note.begin = notes[4 * i]
@@ -35,6 +36,7 @@ func add_notes(notes: PoolIntArray):
 		add_child(note)
 
 func get_notes() -> PoolVector3Array:
+	#these go to midi_saver.gd
 	var notes: PoolVector3Array
 	for note in get_children():
 		notes.append(Vector3(note.begin, note.note, note.velocity))

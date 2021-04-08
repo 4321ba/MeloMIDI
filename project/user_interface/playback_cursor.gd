@@ -18,14 +18,14 @@ func _process(delta):
 		collision.shape.b = points[1]
 		
 		#if option is set  or  if we're left/right outside and other option is set
-		if (options.screen_follows_cursor == options.CURSOR_ALWAYS_LEFT or (
+		if (options.options.general.screen_follows_cursor == options.CURSOR_ALWAYS_LEFT or (
 			(timeline_scroll_container.scroll_horizontal + get_viewport_rect().size.x - 40 < playback_cursor_position or
 			timeline_scroll_container.scroll_horizontal > playback_cursor_position) and
-			options.screen_follows_cursor == options.JUMP_IF_PLAYING_OFFSCREEN)):
+			options.options.general.screen_follows_cursor == options.JUMP_IF_PLAYING_OFFSCREEN)):
 			timeline_scroll_container.scroll_horizontal = playback_cursor_position
-		if options.screen_follows_cursor == options.CURSOR_ALWAYS_MIDDLE:
+		if options.options.general.screen_follows_cursor == options.CURSOR_ALWAYS_MIDDLE:
 			timeline_scroll_container.scroll_horizontal = playback_cursor_position - (get_viewport_rect().size.x - 40) / 2
-		if options.triangle_follows_cursor:
+		if options.options.general.triangle_follows_cursor:
 			wave_player.replay_cursor_position_percent = playback_cursor_position_percent
 			timeline_bar.update()
 	elif points.size() > 0:

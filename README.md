@@ -3,21 +3,22 @@ An interactive wave to midi editor, music transcription software.
 Work in progress, but it can already save the converted audio; and visualization, playback, note placement, modification and removal, and conversion with options are also working.  
 ## Usage
 Releases coming soonTM!  
+*insert video link and screenshots here*  
 ### Expect the program to crash
 Be sure to save frequently if you're working on a bit larger project, there are NO backups created! Currently we have no unique file format, but you can still save the midi file, and if the program does crash, you can load the wave file back up, continue working from where you left off, and after finishing, copy the first part and second part midi files together with an external program. It's still better than redoing the whole thing.  
 ### Controls
-We try to use the most intuitive shortcuts and mouse controls, but if you get stuck, you can take a look at the in-program help, that lists all of the available ones. (not yet implemented)  
+We try to use the most intuitive shortcuts and mouse controls, but if you get stuck, you can take a look at the in-program help, that lists all of the available ones.  
 ### Options
 MeloMIDI tries to give as much customization in the recognition as possible, so the users can accomodate it to very different pieces of music.  
 You can view the description of an option in the options popup, with hovering over the number input box. Feel free to open an issue if something is hard to understand!  
 We also try to give sane defaults, so if the defaults yield absolutely trash results, don't be shy about it either :D!  
 ## Modifying the program
 You can download this repository, download Godot 3.3+ (if you don't already have it), run Godot and open the project with it. Hit F5 and everything should work as in the release. (currently only Linux, because `spectrum_analyzer.cpp` would need to be compiled for windows to work out of the box) Now you can modify the program and instantly see the changes.  
-See also [Compiling spectrum_analyzer.cpp](#compiling-spectrum_analyzer.cpp).  
+See also [Compiling spectrum_analyzer.cpp](#compiling-spectrum_analyzercpp).  
 ## Contributing
 If you find a bug or have a cool feature request, be sure to open an issue!  
-For a basic roadmap you can take a look at [TODO.txt](TODO.txt), but you can still open an issue about a feature that's in there.
-If you would like to create a pull request, please also open an issue first, so that we can talk about it, and if it maybe turns out that it is out of scope, you don't work for nothing.
+For a basic roadmap you can take a look at [TODO.txt](TODO.txt), but you can still open an issue about a feature that's in there so we can see the interest in it.  
+If you would like to create a pull request, please also open an issue first, so that we can talk about it, and if it maybe turns out that it is out of scope, you don't work for nothing.  
 ## Compiling spectrum_analyzer.cpp
 There's already a compiled version in `project/bin` (currently for Linux only), and you can modify most parts of the program without changing the GDNative/NativeScript part.  
 However, if you want to modify the core (C++) part of spectrum_analyzer (fft calculation, image creation, note recognition algorithms), you have to compile/build the libraries first.  

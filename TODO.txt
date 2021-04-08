@@ -1,10 +1,6 @@
 important:
 -2 errors from GMP
--more general cleanup + options.gd + store convoptions just before converting
--fix buttons that cause instant crash (e.g. recalculate with no image)
--hide notes option
--shortcut for changing playback type
--help button, popup: version, control (+shortcuts) list
+-make making easier with cmake
 -compile for windows
 
 less important:
@@ -20,5 +16,6 @@ less important:
 -auto quantization recognition
 -percussion editor and maybe recognition
 -integrate a theme, or at least a better font
--make making easier with cmake
 -option to turn off ui upscaling?
+-create our own file format, save path to file, notes and options
+-user defined sf2 soundfont, maybe

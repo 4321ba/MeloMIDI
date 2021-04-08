@@ -5,7 +5,7 @@ extends Node2D
 func _draw():
 	var end: float = spectrum_analyzer.texture_size.x
 	var one_seminote_gap := spectrum_analyzer.texture_size.y / 128.0
-	var subdivision: int = spectrum_analyzer.subdivision
+	var subdivision: int = options.options.fft.subdivision
 	for note in 128:
 		#if it's a black key
 		if note % 12 in [1, 3, 6, 8, 10]:

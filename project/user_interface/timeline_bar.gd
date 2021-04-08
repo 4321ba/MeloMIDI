@@ -20,7 +20,7 @@ func _draw():
 	#we want at most 10 time messages on screen (1280px/128px=10text on-screen)
 	#so max_texts_to_draw is for the full timeline
 	var max_texts_to_draw: float = rect_size.x / 128.0
-	var full_time: float = spectrum_analyzer.texture_size.x * spectrum_analyzer.hop_size / spectrum_analyzer.sample_rate
+	var full_time: float = spectrum_analyzer.texture_size.x * options.options.fft.hop_size / spectrum_analyzer.sample_rate
 	var min_seconds_per_text_drawn: float = full_time / max_texts_to_draw
 	var step_size: float = pow(10, ceil(3 * log(min_seconds_per_text_drawn) / log(10)) / 3)
 	var order_of_magnitude: int = floor(log(step_size) / log(10))

@@ -280,6 +280,8 @@ public:
                         magnitude += current_magnitudes[(note + 1) * subdivision + i] * (-abs(i * 2.0 / (subdivision - 1) - 1)) * percussion_removal;
                     }
                 }
+                //a note: we're currently not clamping it at 0, meaning it can be negative when the surrounding notes are louder then the current one
+                //this means that e.g. for octave compensation, one octave higher notes will be compensated to be louder, which we may not want, but it's not a big problem
                 these_strengths.push_back(magnitude > 0 ? magnitude / subdivision : 0);
             }
             note_strengths.push_back(these_strengths);
@@ -314,6 +316,7 @@ public:
                         notes.append(note_begin_tick);
                         notes.append(tick);
                         notes.append(note);
+                        //we're relying on the gdscript part for clamping
                         notes.append(peak_magnitude * 128 * volume_multiplier);
                     }
                     note_begin_tick = -1;
