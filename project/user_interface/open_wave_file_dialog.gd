@@ -7,7 +7,7 @@ func _ready():
 	current_dir = path
 	current_path = path
 
-func _on_open_file_dialog_file_selected(path):
+func _on_open_wave_file_dialog_file_selected(path):
 	spectrum_analyzer.file_path = path
 	wave_player.load_file()
 	graph_scroll_container.reset()

@@ -7,5 +7,5 @@ func _ready():
 	current_dir = path
 	current_path = path
 
-func _on_save_file_dialog_file_selected(path):
+func _on_save_midi_file_dialog_file_selected(path):
 	midi_saver.save_midi(notes.get_notes(), path)

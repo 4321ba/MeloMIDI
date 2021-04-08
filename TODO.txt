@@ -1,6 +1,6 @@
 important:
 -2 errors from GMP
--general cleanup + rework cursor options button and popup, and options.gd + store convoptions just before converting
+-more general cleanup + options.gd + store convoptions just before converting
 -fix buttons that cause instant crash (e.g. recalculate with no image)
 -hide notes option
 -shortcut for changing playback type
@@ -21,3 +21,4 @@ less important:
 -percussion editor and maybe recognition
 -integrate a theme, or at least a better font
 -make making easier with cmake
+-option to turn off ui upscaling?

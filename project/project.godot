@@ -56,12 +56,13 @@ config/icon="res://icon.png"
 
 [autoload]
 
-spectrum_analyzer="*res://autoload/spectrum_analyzer.gd"
+version="*res://version.gd"
 audio_importer="*res://addons/GDScriptAudioImport/GDScriptAudioImport.gd"
 midi_saver="*res://autoload/midi_saver.gd"
+spectrum_analyzer="*res://autoload/spectrum_analyzer.gd"
+options="*res://autoload/options.gd"
 wave_player="*res://autoload/wave_player.tscn"
 midi_player="*res://autoload/midi_player.tscn"
-options="*res://autoload/options.gd"
 
 [display]
 
