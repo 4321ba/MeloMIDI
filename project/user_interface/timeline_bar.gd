@@ -9,7 +9,7 @@ func _gui_input(event):
 	if event is InputEventMouseButton:
 		dragging = event.pressed
 	if dragging:
-		wave_player.replay_cursor_position_percent = min(max(event.position.x, 0), rect_size.x - 1) / rect_size.x
+		wave_player.replay_cursor_position_percent = clamp(event.position.x, 0, rect_size.x - 1) / rect_size.x
 		update()
 
 #this manages the timeline and triangle drawing

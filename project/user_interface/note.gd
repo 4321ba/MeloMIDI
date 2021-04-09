@@ -18,8 +18,8 @@ onready var collision: CollisionShape2D = $area/collision
 onready var middle: Control = $container/middle
 
 func set_velocity(new_velocity: int):
-	velocity = min(max(new_velocity, 1), 127)
-	default_color.a8 = velocity + 96
+	velocity = clamp(new_velocity, 1, 127)
+	default_color.a8 = velocity + 128
 	if middle:
 		middle.hint_tooltip = str(velocity)
 
