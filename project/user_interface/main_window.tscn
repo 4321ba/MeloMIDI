@@ -759,9 +759,9 @@ __meta__ = {
 }
 
 [node name="grid" type="GridContainer" parent="general_options_dialog/center"]
-margin_left = 26.0
+margin_left = 24.0
 margin_top = 40.0
-margin_right = 473.0
+margin_right = 476.0
 margin_bottom = 110.0
 custom_constants/vseparation = 20
 custom_constants/hseparation = 10
@@ -837,7 +837,8 @@ You add notes with Left Clicking in the main area, and dragging it left/right to
 You can remove a note with Right Clicking on it.
 You can resize a note with (Left Click) dragging its left or right side.
 You can change a note's volume (velocity) with (Left Click) dragging the middle of the note up or down.
-Resizing and velocity change are also indicated with the mouse cursor change, and the notes' transparency reflect their volume.
+Resizing and velocity change are also indicated with the mouse cursor change.
+The notes' transparency reflect their volume, and hovering over the middle of the note will show the volume precisely.
 
 Shortcuts:
 Use the numbers 1-5 to change what should be played back (wave, midi, or both, and with or without panning), see the toolbar for possible options.

@@ -3,6 +3,9 @@ extends Node
 var sample_rate: int
 var texture_size: Vector2
 
+#source of current color scheme (purple-red-yellow-white):
+#https://sourceforge.net/projects/isse/
+const COLOR_SCHEME: Gradient = preload("res://themes/spectrum_color_scheme.tres")
 var native_library = preload("res://bin/spectrum_analyzer.gdns").new()
 
 onready var conversion_options_dialog: WindowDialog = $"/root/main_window/conversion_options_dialog"
@@ -17,7 +20,7 @@ func analyze_spectrum() -> Array:
 	sample_rate = return_array[0]
 	texture_size = Vector2(return_array[1], return_array[2])
 
-	var images: Array = native_library.generate_images()
+	var images: Array = native_library.generate_images(COLOR_SCHEME)
 	var spectrum_sprites: Array
 	for image in images:
 		var image_texture: ImageTexture = ImageTexture.new()

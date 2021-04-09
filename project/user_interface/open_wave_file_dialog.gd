@@ -9,5 +9,6 @@ func _ready():
 
 func _on_open_wave_file_dialog_file_selected(path):
 	options.options.misc.file_path = path
+	OS.set_window_title(path.get_file() + " - MeloMIDI")
 	wave_player.load_file()
 	graph_scroll_container.reset()

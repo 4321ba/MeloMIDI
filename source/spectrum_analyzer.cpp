@@ -2,6 +2,8 @@
 //includes from godot-cpp
 #include <Godot.hpp>
 #include <Reference.hpp>
+#include <Ref.hpp>
+#include <Gradient.hpp>
 #include <Image.hpp>
 //include from libnyquist
 #include <Decoders.h>
@@ -25,6 +27,14 @@ public:
     //here we'll store the values, evened out exponentially
     //meaning every subdivision (e.g. 9) lines represent a semitone
     std::vector<std::vector<float>> magnitudes;
+    
+    
+    float remap(float input_min, float input_max, float value, float output_min, float output_max) {
+        //inverse lerp and lerp from
+        //https://www.gamedev.net/tutorials/programming/general-and-gameplay-programming/inverse-lerp-a-super-useful-yet-often-overlooked-function-r5230/
+        float ratio = (value - input_min) / (input_max - input_min);
+        return (1.0 - ratio) * output_min + ratio * output_max;
+    }
     
     
     std::vector<std::vector<float>> analyze_subspectrum(std::vector<float> samples, int sample_rate, int fft_size, float low_high_exponent, float overamplification_multiplier, int hop_size, int subdivision, float tuning) {
@@ -87,10 +97,7 @@ public:
                         begin_count--;
                         float begin_frequency = begin_count * sample_rate / float(fft_size);
                         float end_frequency = end_count * sample_rate / float(fft_size);
-                        //inverse lerp and lerp from
-                        //https://www.gamedev.net/tutorials/programming/general-and-gameplay-programming/inverse-lerp-a-super-useful-yet-often-overlooked-function-r5230/
-                        float ratio = (frequency - begin_frequency) / (end_frequency - begin_frequency);
-                        sum = (1.0 - ratio) * linear_magnitudes[begin_count] + ratio * linear_magnitudes[end_count];
+                        sum = remap(begin_frequency, end_frequency, frequency, linear_magnitudes[begin_count], linear_magnitudes[end_count]);
                     } else {
                         //for high notes we add all the in-range values together
                         for (int i = begin_count; i < end_count; i++) { sum += linear_magnitudes[i]; }
@@ -214,7 +221,7 @@ public:
     }
     
     
-    Array generate_images() {
+    Array generate_images(Ref<Gradient> color_scheme) {
         Array images;
         int number_of_images = magnitudes.size() / 16384;
         for (int image_count = 0; image_count <= number_of_images; image_count++) {
@@ -224,19 +231,17 @@ public:
             int height = current_magnitudes[0].size();
             std::cout << "Creating image with width " << width << " and height " << height << std::endl;
             PoolByteArray image_data;
-            Color color;
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    color = color.from_hsv(current_magnitudes[x][y], 1, 1);
+                    Color color = color_scheme->interpolate(current_magnitudes[x][y]);
                     image_data.append(color.get_r8());
                     image_data.append(color.get_g8());
                     image_data.append(color.get_b8());
                     image_data.append(color.get_a8());
                 }
             }
-            //I'm not 100% sure this is good, there's Ref<Image> or something like that but idk
-            //I'm happy that it works
-            Image* image = Image::_new();
+            //there's also Image* but they say this is better and I actually got it working
+            Ref<Image> image = Image::_new();
             image->create_from_data(width, height, false, image->FORMAT_RGBA8, image_data);
             //we want low pitch to be down and high pitch to be up
             image->flip_y();

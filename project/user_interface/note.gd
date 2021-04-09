@@ -19,7 +19,7 @@ onready var middle: Control = $container/middle
 
 func set_velocity(new_velocity: int):
 	velocity = min(max(new_velocity, 1), 127)
-	default_color.a8 = velocity + 64
+	default_color.a8 = velocity + 96
 	if middle:
 		middle.hint_tooltip = str(velocity)
 

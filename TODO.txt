@@ -20,3 +20,5 @@ less important:
 -option to turn off ui upscaling?
 -create our own file format, save path to file, notes and options
 -user defined sf2 soundfont, maybe
+-fix tooltips being squashed
+-fix changing note volume slowly (rounding problem)
