@@ -38,6 +38,7 @@ public:
     
     
     std::vector<std::vector<float>> analyze_subspectrum(std::vector<float> samples, int sample_rate, int fft_size, float low_high_exponent, float overamplification_multiplier, int hop_size, int subdivision, float tuning) {
+        //for a short overall description of what's happening (at least partially): https://stackoverflow.com/a/4678313
         std::cout << "Calculating subspectrum with parameters:" << std::endl;
         
         //adding silence to the beginning and to the end

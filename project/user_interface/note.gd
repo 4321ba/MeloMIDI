@@ -58,8 +58,12 @@ func _ready():
 	container.rect_size.y = subdivision
 	var segment_shape = SegmentShape2D.new()
 	collision.shape = segment_shape
-	set_length(length)
-	set_velocity(velocity)
+	#these are from set_length and set_velocity
+	#but if those are set before _ready, they can't
+	#update these
+	container.rect_size.x = length
+	collision.shape.b = Vector2(length, 0)
+	middle.hint_tooltip = str(velocity)
 
 func _on_left_gui_input(event: InputEvent):
 	if event is InputEventMouseButton:

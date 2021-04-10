@@ -22,7 +22,7 @@ onready var volume_multiplier_option: SpinBox = $center/bottom_separator/options
 onready var percussion_removal_option: SpinBox = $center/bottom_separator/options_body/recognition_part/grid/percussion_removal_option
 
 func _ready():
-	#we want to display the default values from the options singleton
+	#we want to display the (default) values from the options singleton
 	#fft options
 	two_ffts_option.pressed = options.options.fft.use_2_ffts
 	fft_size_low_option.value = options.options.fft.fft_size_low

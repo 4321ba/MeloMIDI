@@ -2,12 +2,6 @@ extends Node
 
 onready var source_option_combobox: OptionButton = $"/root/main_window/toolbar_separator/toolbar/source_option_combobox"
 
-#func _ready():
-#	call_deferred("_deferred_ready")
-#
-#func _deferred_ready():
-#	source_option_combobox = 
-
 func _unhandled_key_input(event):
 	var index: int
 	if event.is_action_pressed("play_midi_and_wave"):

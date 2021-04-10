@@ -5,6 +5,7 @@ var texture_size: Vector2
 
 #source of current color scheme (purple-red-yellow-white):
 #https://sourceforge.net/projects/isse/
+#and Ubuntu's color scheme
 const COLOR_SCHEME: Gradient = preload("res://themes/spectrum_color_scheme.tres")
 var native_library = preload("res://bin/spectrum_analyzer.gdns").new()
 

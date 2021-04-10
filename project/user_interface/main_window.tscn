@@ -653,7 +653,9 @@ margin_bottom = 156.0
 hint_tooltip = "Notes not reaching this value will automatically be removed.
 This tries to complement many, short notes that are recognized.
 Set this to 0 if you want all the notes, set this higher if you
-have too many short notes, and want them gone."
+have too many short notes, and want them gone.
+This is dependent on hop size: if hop size is smaller,
+this should be bigger to achieve the same effect (in seconds)."
 max_value = 50.0
 rounded = true
 

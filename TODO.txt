@@ -1,10 +1,10 @@
 important:
--2 errors from GMP
 -make making easier with cmake
 -compile for windows
 -icon
 
 less important:
+-2 errors from GMP
 -zooming with scrollbar on side scrollcontainers with wheel
 -move note around with grabbing the middle of it
 -cut notes in half with middle click
@@ -16,9 +16,11 @@ less important:
 -quantization or how adding horizontal alignment/snap is called
 -auto quantization recognition
 -percussion editor and maybe recognition
--integrate a theme maybe
+-integrate a theme maybe (make styleboxes better to zoom)
 -option to turn off ui upscaling?
 -create our own file format, save path to file, notes and options
 -user defined sf2 soundfont, maybe
 -fix tooltips being squashed
 -fix changing note volume slowly (rounding problem)
+-save images (png) option
+-improve algorithm to compensate for forte/piano (by analyzing the surroundings) maybe
