@@ -1,12 +1,10 @@
-#if we ever get to use cmake, we could have a build folder
-build/*
+#used by cmake and stuff
+source/build/*
+source/bin
 
 #kdevelop needed a project to add library paths
 source/.kdev4
 source/MeloMIDI.kdev4
-
-#we don't need object files committed
-source/*.o
 
 #Godot can generate the import folder
 project/.import
