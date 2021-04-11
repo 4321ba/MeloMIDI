@@ -66,7 +66,7 @@ public:
             
             for (int i = 0; i < fft_size; i++) {
                 //Hann window function, source: https://github.com/Kryszak/AudioSpectrum/blob/master/Mp3Player.cpp#L114
-                cx_in[i].r = samples[current_position + i] * 0.5f * (1 - cos(2 * M_PI * i / (fft_size - 1)));
+                cx_in[i].r = samples[current_position + i] * 0.5f * (1 - cos(2 * 3.14159265358979323846 * i / (fft_size - 1)));
             }
             kiss_fft(cfg, cx_in, cx_out);
             std::vector<float> linear_magnitudes;

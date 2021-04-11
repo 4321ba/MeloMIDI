@@ -1,10 +1,13 @@
 important:
--make making easier with cmake
--compile for windows
+-commit stuff
+-update libnyquist if pr is merged
+-update readme about compiling
+-remove backlog of binary files
+-fix windows crash when closing
 -icon
+-2 errors from GMP (update to 2.4.4)
 
 less important:
--2 errors from GMP
 -zooming with scrollbar on side scrollcontainers with wheel
 -move note around with grabbing the middle of it
 -cut notes in half with middle click

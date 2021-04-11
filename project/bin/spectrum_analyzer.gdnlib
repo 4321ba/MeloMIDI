@@ -7,8 +7,10 @@ reloadable=true
 
 [entry]
 
-X11.64="res://bin/spectrum_analyzer.so"
+Windows.64="res://bin/libspectrum_analyzer.dll"
+X11.64="res://bin/libspectrum_analyzer.so"
 
 [dependencies]
 
+Windows.64=[  ]
 X11.64=[  ]
