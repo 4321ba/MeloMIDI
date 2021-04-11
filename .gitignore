@@ -1,5 +1,5 @@
 #used by cmake and stuff
-source/build/*
+source/build
 source/bin
 
 #kdevelop needed a project to add library paths
@@ -8,3 +8,7 @@ source/MeloMIDI.kdev4
 
 #Godot can generate the import folder
 project/.import
+
+#exclude the compiled spectrum_analyzers
+project/bin/libspectrum_analyzer.so
+project/bin/libspectrum_analyzer.dll
