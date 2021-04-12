@@ -22,7 +22,7 @@ func analyze_spectrum() -> Array:
 	texture_size = Vector2(return_array[1], return_array[2])
 
 	var images: Array = native_library.generate_images(COLOR_SCHEME)
-	var spectrum_sprites: Array
+	var spectrum_sprites := []
 	for image in images:
 		var image_texture: ImageTexture = ImageTexture.new()
 		image_texture.create_from_image(image)

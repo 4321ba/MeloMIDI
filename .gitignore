@@ -1,6 +1,8 @@
 #used by cmake and stuff
-source/build
 source/bin
+source/build
+source/build_linux
+source/build_windows
 
 #kdevelop needed a project to add library paths
 source/.kdev4

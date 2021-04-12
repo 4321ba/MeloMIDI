@@ -6,7 +6,7 @@ onready var timeline_scroll_container: ScrollContainer = $"../.."
 onready var graph_spacer: Control = $"../../../graph_scroll_container/graph_spacer"
 onready var collision: CollisionShape2D = $area/collision
 
-func _process(delta):
+func _physics_process(_delta):
 	if wave_player.playing:
 		var playback_cursor_position_percent := wave_player.get_playback_position() / wave_player.stream.get_length()
 		var playback_cursor_position := timeline_bar.rect_size.x * playback_cursor_position_percent

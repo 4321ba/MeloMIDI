@@ -1,11 +1,9 @@
 important:
--improve cpp code
 -update libnyquist if pr is merged
 -update readme about compiling
 -remove backlog of binary files
 -fix windows crash when closing
 -icon
--2 errors from GMP (update to 2.4.4)
 
 less important:
 -zooming with scrollbar on side scrollcontainers with wheel

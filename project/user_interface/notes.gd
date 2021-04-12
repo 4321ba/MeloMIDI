@@ -37,7 +37,7 @@ func add_notes(notes: PoolIntArray):
 
 func get_notes() -> PoolVector3Array:
 	#these go to midi_saver.gd
-	var notes: PoolVector3Array
+	var notes := PoolVector3Array()
 	for note in get_children():
 		notes.append(Vector3(note.begin, note.note, note.velocity))
 		notes.append(Vector3(note.begin + note.length, note.note, 0))

@@ -65,6 +65,12 @@ spectrum_analyzer="*res://autoload/spectrum_analyzer.gd"
 wave_player="*res://autoload/wave_player.tscn"
 midi_player="*res://autoload/midi_player.tscn"
 
+[debug]
+
+gdscript/warnings/narrowing_conversion=false
+gdscript/warnings/return_value_discarded=false
+gdscript/warnings/integer_division=false
+
 [display]
 
 window/size/width=1280
