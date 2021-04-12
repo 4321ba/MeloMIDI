@@ -1,4 +1,4 @@
-extends "res://addons/midi/MidiPlayer.gd"
+extends MidiPlayer
 
 func play_note(note: int, velocity: int):
 	#velocity = 0 for note off event

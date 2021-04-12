@@ -1,6 +1,6 @@
 extends Node
 
-var SMF_GD = preload("res://addons/midi/SMF.gd").new()
+var smf_script = SMF.new()
 
 func save_midi(notes: PoolVector3Array, save_path):
 	#notes come from notes.gd's get_notes function
@@ -20,9 +20,9 @@ func save_midi(notes: PoolVector3Array, save_path):
 				"time": 0,
 				"channel_number": 0,
 				"event": {
-					"type": SMF_GD.MIDIEventType.system_event,
+					"type": smf_script.MIDIEventType.system_event,
 					"args": {
-						"type": SMF_GD.MIDISystemEventType.set_tempo,
+						"type": smf_script.MIDISystemEventType.set_tempo,
 						"bpm": 500000,
 					}
 				}
@@ -35,7 +35,7 @@ func save_midi(notes: PoolVector3Array, save_path):
 			"time": note[0],
 			"channel_number": 0,
 			"event": {
-				"type": SMF_GD.MIDIEventType.note_off if note[2] == 0 else SMF_GD.MIDIEventType.note_on,
+				"type": smf_script.MIDIEventType.note_off if note[2] == 0 else smf_script.MIDIEventType.note_on,
 				"note": note[1],
 				"velocity": note[2],
 			}
@@ -46,15 +46,15 @@ func save_midi(notes: PoolVector3Array, save_path):
 		"time": spectrum_analyzer.texture_size.x,
 		"channel_number": 0,
 		"event": {
-			"type": SMF_GD.MIDIEventType.system_event,
+			"type": smf_script.MIDIEventType.system_event,
 			"args": {
-				"type": SMF_GD.MIDISystemEventType.end_of_track,
+				"type": smf_script.MIDISystemEventType.end_of_track,
 			}
 		}
 	}
 	smf_data["tracks"][0]["events"].append(end_track_event)
 	
-	var bytes: PoolByteArray = SMF_GD.write(smf_data)
+	var bytes: PoolByteArray = smf_script.write(smf_data)
 	
 	print("Saving midi file ", save_path)
 	var file = File.new()

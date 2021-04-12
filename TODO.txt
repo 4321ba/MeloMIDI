@@ -1,5 +1,5 @@
 important:
--commit stuff
+-improve cpp code
 -update libnyquist if pr is merged
 -update readme about compiling
 -remove backlog of binary files
@@ -27,3 +27,4 @@ less important:
 -fix changing note volume slowly (rounding problem)
 -save images (png) option
 -improve algorithm to compensate for forte/piano (by analyzing the surroundings) maybe
+-fix clicking piano with midi muted
