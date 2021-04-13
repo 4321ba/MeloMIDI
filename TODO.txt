@@ -1,9 +1,9 @@
 important:
--update libnyquist if pr is merged
--update readme about compiling
+-update readme about release just before, so it can be included in the source download
 -remove backlog of binary files
 -fix windows crash when closing
 -icon
+-update libnyquist if pr is merged, change submodule to mine if not
 
 less important:
 -zooming with scrollbar on side scrollcontainers with wheel
