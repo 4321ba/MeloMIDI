@@ -1,8 +1,5 @@
 important:
 -update readme about release just before, so it can be included in the source download
--remove backlog of binary files
--fix windows crash when closing
--update libnyquist if pr is merged, change submodule to mine if not
 
 less important:
 -zooming with scrollbar on side scrollcontainers with wheel
