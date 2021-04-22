@@ -453,7 +453,9 @@ margin_top = 122.0
 margin_right = 205.0
 margin_bottom = 146.0
 hint_tooltip = "The normalized magnitudes are multiplied by this, making everything louder.
-The overamplified magnitudes are clamped at the max value (1)."
+If the whole picture is too dark and there are few notes recognized
+(e.g. classical music or piano music), try making this bigger (even 8 e.g.).
+The overamplified magnitudes are then clamped at the max value (1)."
 size_flags_vertical = 3
 min_value = 1.0
 max_value = 20.0
@@ -466,7 +468,9 @@ margin_top = 122.0
 margin_right = 289.0
 margin_bottom = 146.0
 hint_tooltip = "The normalized magnitudes are multiplied by this, making everything louder.
-The overamplified magnitudes are clamped at the max value (1)."
+If the whole picture is too dark and there are few notes recognized
+(e.g. classical music or piano music), try making this bigger (even 8 e.g.).
+The overamplified magnitudes are then clamped at the max value (1)."
 size_flags_vertical = 3
 min_value = 1.0
 max_value = 20.0

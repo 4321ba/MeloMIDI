@@ -1,3 +1,3 @@
 extends Node
 
-const VERSION: String = "1.0.0.in_development"
+const VERSION: String = "1.0.0.development"

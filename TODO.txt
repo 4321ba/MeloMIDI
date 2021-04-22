@@ -1,24 +1,26 @@
-important:
--update readme about release just before, so it can be included in the source download
+-make a presentation video
 
-less important:
+probably:
 -zooming with scrollbar on side scrollcontainers with wheel
 -move note around with grabbing the middle of it
 -cut notes in half with middle click
--merge notes if they overlap (maybe)
--save user preferences maybe
--better color scheme, and option to change it maybe
 -ability to change instrument individually and for pitches / ranges
--remove notes in range / range selection
+-remove notes in range / range selection (horizontal / vertical)
+-select multiple notes
 -quantization or how adding horizontal alignment/snap is called
 -auto quantization recognition
--percussion editor and maybe recognition
--integrate a theme maybe (make styleboxes better to zoom)
 -option to turn off ui upscaling?
 -create our own file format, save path to file, notes and options
--user defined sf2 soundfont, maybe
--fix tooltips being squashed
+-fix volume tooltips being squashed
 -fix changing note volume slowly (rounding problem)
 -save images (png) option
--improve algorithm to compensate for forte/piano (by analyzing the surroundings) maybe
 -fix clicking piano with midi muted
+
+maybe:
+-option to change color scheme
+-merge notes if they overlap
+-save user preferences
+-percussion editor and recognition
+-user defined sf2 soundfont
+-integrate a theme (or at least make styleboxes better to zoom)
+-improve algorithm to compensate for forte/piano (by analyzing the surroundings)

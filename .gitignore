@@ -4,13 +4,16 @@ source/build
 source/build_linux
 source/build_windows
 
-#kdevelop needed a project to add library paths
-source/.kdev4
-source/MeloMIDI.kdev4
+#exclude the compiled spectrum_analyzers
+project/bin/libspectrum_analyzer.so
+project/bin/libspectrum_analyzer.dll
 
 #Godot can generate the import folder
 project/.import
 
-#exclude the compiled spectrum_analyzers
-project/bin/libspectrum_analyzer.so
-project/bin/libspectrum_analyzer.dll
+#kdevelop needed a project to add library paths
+source/.kdev4
+source/MeloMIDI.kdev4
+
+#I export the program in this folder
+release
