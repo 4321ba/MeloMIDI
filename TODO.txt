@@ -1,4 +1,7 @@
 -make a presentation video
+-mention space shortcut
+-make readme icon a bit bigger
+-fix windows icon
 
 probably:
 -zooming with scrollbar on side scrollcontainers with wheel
