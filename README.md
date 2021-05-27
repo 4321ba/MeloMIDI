@@ -6,6 +6,7 @@ Basic features are working, but there's plenty of room for improvement.
 Download the program from the [Releases](https://github.com/4321ba/MeloMIDI/releases).  
 Extract it, and run the MeloMIDI_x.y.z executable. You don't need to install it.  
 The program will freeze when opening a file, that is normal for now.  
+Press **Space** to start/stop playback.  
 Example with [Approaching Nirvana - Forest of Wonder](https://www.youtube.com/watch?v=MWOaYWuKnNw):  
 ![Image of the program with notes](screenshots/forest_of_wonder_with_notes.png)  
 If the output midi is less than usable, the program can still help with the spectrum image of the piece:  
