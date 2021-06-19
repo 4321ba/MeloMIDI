@@ -1,6 +1,7 @@
 # ![Icon](screenshots/icon_low_resolution.png) MeloMIDI
 An interactive wave to midi editor, music transcription software made in Godot. Supports Linux and Windows.  
-Basic features are working, but there's plenty of room for improvement.
+Basic features are working, but there's plenty of room for improvement.  
+[Short video showing it in action.](https://www.youtube.com/watch?v=tsoi-kUxioI)
 
 ## Usage
 Download the program from the [Releases](https://github.com/4321ba/MeloMIDI/releases).  
