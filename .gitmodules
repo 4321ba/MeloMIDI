@@ -6,4 +6,4 @@
 	url = https://github.com/mborgerding/kissfft
 [submodule "source/libnyquist"]
 	path = source/libnyquist
-	url = https://github.com/4321ba/libnyquist
+	url = https://github.com/ddiakopoulos/libnyquist
